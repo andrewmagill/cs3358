@@ -16,11 +16,8 @@ Deck::Deck() {
          case 3: suit = Card::clubs; break;
       };
   
-      Card c(j,suit);
+      //myCards[i+j]
       
-      //
-      
-      cout << c << endl;
     }
   }
 }
