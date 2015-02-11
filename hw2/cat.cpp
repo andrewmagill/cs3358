@@ -55,7 +55,8 @@ int main() {
   // error: member reference type 'Cat *' is a pointer; maybe you meant to use '->'?
   //
   
-  delete cat1;
+  //delete cat1;
+  // error: cannot delete expression of type 'Cat'
   delete cat2pt;
   delete cat3pt;
   
