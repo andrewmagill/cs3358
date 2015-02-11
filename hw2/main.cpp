@@ -3,4 +3,8 @@
 #include <iostream>
 
 int main () {
+  Deck deck;
+  //deck.printDeck();
+  deck.shuffle();
+  deck.printDeck();
 }
