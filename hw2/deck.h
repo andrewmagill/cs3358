@@ -22,6 +22,8 @@
 class Deck
 {
   static const int SIZE = 52;
+  static const int RANK_SIZE = 13;
+  static const int SUIT_SIZE = 4;
   
   public:
     
