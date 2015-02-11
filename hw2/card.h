@@ -41,8 +41,8 @@ class Card
     string toString()              const;  // return string version e.g. Ac 4h Js
     bool sameSuitAs(const Card& c) const;  // true if suit same as c
     int  getRank()                 const;  // return rank, 1..13
-    string suitString(Suit s)      const;  // return "s", "h",...
-    
+    Suit getSuit()                 const;  // return Suit, {spades, ... , clubs}
+    string suitString(Suit s)      const;  // return "s", "h",...    
     string rankString(int r)       const;  // return "A", "2", ..."Q"  
     
     
