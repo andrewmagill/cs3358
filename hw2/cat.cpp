@@ -20,6 +20,8 @@ class Cat {
 };
 
 int main() {
+  Cat litter[5];
+  
   Cat cat1("morris", "orange");
   
   cout << cat1.getName() << " is " << cat1.getColor() << endl;
