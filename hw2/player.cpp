@@ -19,11 +19,18 @@ void Player::addCard(Card c) {
 }
 
 void Player::bookCards(Card c1, Card c2) {
-  // not imlpemented yet
+  if(c1.getRank() == c2.getRank())
+    myBook.push_back(c1);
 }
 
 bool Player::checkHandForBook(Card &c1, Card &c2) {
-  // not imlpemented yet
+  for(int i = 0; i < myHand.size() - 1)
+    for(int j = i + 1; j < myHand.size())
+      if(myHand[i].getRank() == myHand[j].getRank()) {
+        //c1 gets card i, c2 gets card j
+        return true;
+      }
+
   return false;
 }
 
@@ -49,18 +56,25 @@ Card Player::chooseCardFromHand() const {
 }
 
 bool Player::cardInHand(Card c) const {
-  // not imlpemented yet
+  // so right now this is removing any (this first) card with the same rank
+  for(int i = 0; i < myHand.size(); i++)
+    if(myHand[i].getRank() == c.getRank()) {
+      return true;
+    }
+  
+  // only if now card of the same rank was found
   return false;
 }
 
 Card Player::removeCardFromHand(Card c) {
-  // so right now this is removing any card with the same rank
+  // so right now this is removing any (this first) card with the same rank
   Card tempCard;
   
   for(int i = 0; i < myHand.size(); i++)
     if(myHand[i].getRank() == c.getRank()) {
       tempCard = myHand[i];
       myHand.erase(myHand.begin()+i);
+      break;
     }
     
   return tempCard;
@@ -90,9 +104,4 @@ int Player::getHandSize() const {
 
 int Player::getBookSize() const {
   return myBook.size();
-}
-
-bool Player::checkHandForPair(Card &c1, Card &c2) {
-  // not imlpemented yet
-  return false;
 }
