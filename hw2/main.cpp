@@ -3,23 +3,35 @@
 #include "player.h"
 #include <iostream>
 
+void dealHand(Deck &d, Player &p, int numCards)
+{
+   for (int i=0; i < numCards; i++)
+      p.addCard(d.dealCard());
+}
+
 int main () {
-  Deck deck;  
+  int numCards = 7;
   
+  Deck deck;    
   deck.shuffle();
+  
   /*
   Card myCard;
   while(deck.dealCard(myCard)) {
     cout << deck.size() << " - " << myCard << endl;
-  }
-  
-  deck.shuffle();
-  
+  }  
+  deck.shuffle();  
   while(deck.size() > 0) {
     cout << deck.size() << " - " << deck.dealCard() << endl;
   }
   */
   
   Player p1("Joe");
-  Player p2("Jane");  
+  Player p2("Jane");
+  
+  dealHand(deck, p1, numCards);
+  dealHand(deck, p2, numCards);
+    
+  cout << p1.getName() <<" has : " << p1.showHand() << endl;
+  cout << p2.getName() <<" has : " << p2.showHand() << endl; 
 }

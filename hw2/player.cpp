@@ -15,7 +15,7 @@ string Player::getName() const {
 }
 */
 void Player::addCard(Card c) {
-  // not imlpemented yet
+  myHand.push_back(c);
 }
 
 void Player::bookCards(Card c1, Card c2) {
@@ -48,8 +48,12 @@ Card Player::removeCardFromHand(Card c) {
 }
 
 string Player::showHand() const {
-  // not imlpemented yet
-  return "";
+  string strHand = "";
+  
+  for(int i = 0; i < myHand.size(); i++)
+    strHand += myHand[i].toString() + " ";
+
+  return strHand;
 }
 
 string Player::showBooks() const {
