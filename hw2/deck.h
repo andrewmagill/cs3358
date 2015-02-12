@@ -32,8 +32,7 @@ class Deck
 
     void shuffle();   // shuffle the deck, all 52 cards present
     Card dealCard();   // get a card, after 52 are dealt, fail 
-
-    void printDeck();
+    bool dealCard(Card & card);
   
     int  size() const; // # cards left in the deck
 
@@ -41,6 +40,7 @@ class Deck
 
     Card myCards[SIZE];
     int myIndex;  // current card to deal
+    int topCardIndex;  // keep track of the next card to deal
 };
 
 #endif

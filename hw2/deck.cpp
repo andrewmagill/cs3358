@@ -7,6 +7,7 @@
 using namespace std;
 
 Deck::Deck() {
+  topCardIndex = 0;
   int index = 0;
   
   for (int intSuit = 0; intSuit < SUIT_SIZE; intSuit++) { 
@@ -20,6 +21,7 @@ Deck::Deck() {
 }
 
 void Deck::shuffle() {
+  topCardIndex = 0;
   int randCardIndex;  
   Card tempCard;
   
@@ -33,13 +35,31 @@ void Deck::shuffle() {
       myCards[i] = myCards[randCardIndex];
       myCards[randCardIndex] = tempCard;
     }    
-  }
-  
-  cout << endl << endl;
+  }  
 }
 
-void Deck::printDeck() {
-  for (int i = 0; i < SIZE; i++) {
-    cout << i << ": " << myCards[i] << endl;
-  }
+Card Deck::dealCard() {
+  // the last card will have index equal to SIZE - 1
+  if(topCardIndex == SIZE)
+    return Card();
+  
+  Card topCard = myCards[topCardIndex];  
+  topCardIndex++;
+  
+  return topCard;
+}
+
+bool Deck::dealCard(Card & card) {
+  // the last card will have index equal to SIZE - 1
+  if(topCardIndex == SIZE)
+    return false;
+  
+  card = myCards[topCardIndex];  
+  topCardIndex++;
+  
+  return true;
+}
+
+int Deck::size() const {
+  return SIZE - topCardIndex;
 }

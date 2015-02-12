@@ -3,8 +3,18 @@
 #include <iostream>
 
 int main () {
-  Deck deck;
-  //deck.printDeck();
+  Deck deck;  
+  
   deck.shuffle();
-  deck.printDeck();
+  
+  Card myCard;
+  while(deck.dealCard(myCard)) {
+    cout << deck.size() << " - " << myCard << endl;
+  }
+  
+  deck.shuffle();
+  
+  while(deck.size() > 0) {
+    cout << deck.size() << " - " << deck.dealCard() << endl;
+  }
 }
