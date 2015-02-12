@@ -32,6 +32,9 @@ int main () {
   dealHand(deck, p1, numCards);
   dealHand(deck, p2, numCards);
     
-  cout << p1.getName() <<" has : " << p1.showHand() << endl;
-  cout << p2.getName() <<" has : " << p2.showHand() << endl; 
+  cout << p1.getName() <<" has : " << p1.showHand() << "- " << p1.getHandSize() << " cards."<< endl;
+  cout << p2.getName() <<" has : " << p2.showHand() << "- " << p1.getHandSize() << " cards."<< endl;
+  
+  cout << p1.getName() <<" has : " << p1.showBooks() << "- " << p1.getBookSize() << " books."<< endl;
+  cout << p2.getName() <<" has : " << p2.showBooks() << "- " << p1.getBookSize() << " books."<< endl;
 }

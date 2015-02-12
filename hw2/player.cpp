@@ -57,18 +57,20 @@ string Player::showHand() const {
 }
 
 string Player::showBooks() const {
-  // not imlpemented yet
-  return "";
+  string strBooks = "";
+  
+  for(int i = 0; i < myBook.size(); i++)
+    strBooks += myBook[i].toString() + " ";
+
+  return strBooks;
 }
 
 int Player::getHandSize() const {
-  // not imlpemented yet
-  return -1;
+  return myHand.size();
 }
 
 int Player::getBookSize() const {
-  // not imlpemented yet
-  return -1;
+  return myBook.size();
 }
 
 bool Player::checkHandForPair(Card &c1, Card &c2) {
