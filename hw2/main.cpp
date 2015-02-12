@@ -37,4 +37,11 @@ int main () {
   
   cout << p1.getName() <<" has : " << p1.showBooks() << "- " << p1.getBookSize() << " books."<< endl;
   cout << p2.getName() <<" has : " << p2.showBooks() << "- " << p1.getBookSize() << " books."<< endl;
+  
+  Card tempCard(1,(Card::Suit)1);
+  
+  if(p1.rankInHand(tempCard))
+    cout << "removing: " << p1.removeCardFromHand(tempCard) << endl;
+  
+  cout << p1.getName() <<" has : " << p1.showHand() << "- " << p1.getHandSize() << " cards."<< endl;
 }
