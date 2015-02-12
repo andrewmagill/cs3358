@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "Card.h"
 #include "Deck.h"
 #include <iostream>
@@ -41,4 +42,15 @@ int main() {
   Deck d1;
   
   return 0;
+=======
+#include "card.h"
+#include "deck.h"
+#include <iostream>
+
+int main () {
+  Deck deck;
+  //deck.printDeck();
+  deck.shuffle();
+  deck.printDeck();
+>>>>>>> 9c7fb6f7b6ca9b8802aabf288c43cb36560dc6cd
 }
