@@ -24,6 +24,21 @@ Card::Suit Card::getSuit() const {
   return mySuit;
 }
 
+/*
+Card::Suit Card::intToSuit(int n) const {
+  Card::Suit suit;
+  
+  switch(n) {
+     case 0: suit = Card::spades; break;
+     case 1: suit = Card::hearts; break;
+     case 2: suit = Card::diamonds; break;
+     case 3: suit = Card::clubs; break;
+  };
+  
+  return suit;   
+}
+*/
+
 string Card::suitString(Suit s) const {
   string strSuit = "";
 

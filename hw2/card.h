@@ -42,6 +42,7 @@ class Card
     bool sameSuitAs(const Card& c) const;  // true if suit same as c
     int  getRank()                 const;  // return rank, 1..13
     Suit getSuit()                 const;  // return Suit, {spades, ... , clubs}
+    //Suit intToSuit(int n)          const;  // return 0 = spades, ... , 3 = clubs 
     string suitString(Suit s)      const;  // return "s", "h",...    
     string rankString(int r)       const;  // return "A", "2", ..."Q"  
     
