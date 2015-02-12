@@ -21,5 +21,5 @@ int main () {
   */
   
   Player p1("Joe");
-  Player p2("Jane");
+  Player p2("Jane");  
 }

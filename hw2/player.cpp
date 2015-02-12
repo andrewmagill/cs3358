@@ -1,8 +1,9 @@
+#include "player.h"
 #include "card.h"
 #include <iostream>
 
 using namespace std;
-
+/*
 Player::Player() {}
 
 Player::Player(string name) {
@@ -12,7 +13,7 @@ Player::Player(string name) {
 string Player::getName() const {
    return myName;
 }
-
+*/
 void Player::addCard(Card c) {
   // not imlpemented yet
 }
@@ -48,24 +49,30 @@ Card Player::removeCardFromHand(Card c) {
 
 string Player::showHand() const {
   // not imlpemented yet
+  return "";
 }
 
 string Player::showBooks() const {
   // not imlpemented yet
+  return "";
 }
 
 int Player::getHandSize() const {
   // not imlpemented yet
+  return -1;
 }
 
-int getBookSize() const {
+int Player::getBookSize() const {
   // not imlpemented yet
+  return -1;
 }
 
-bool checkHandForPair(Card &c1, Card &c2) {
+bool Player::checkHandForPair(Card &c1, Card &c2) {
   // not imlpemented yet
+  return false;
 }
 
-bool sameRankInHand(Card c) const {
+bool Player::sameRankInHand(Card c) const {
   // not imlpemented yet
+  return false;
 }
