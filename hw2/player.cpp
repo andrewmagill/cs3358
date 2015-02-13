@@ -20,13 +20,18 @@ void Player::addCard(Card c) {
 
 void Player::bookCards(Card c1, Card c2) {
   if(c1.getRank() == c2.getRank())
+  {
     myBook.push_back(c1);
+    myBook.push_back(c2);
+  }    
 }
 
 bool Player::checkHandForBook(Card &c1, Card &c2) {
-  for(int i = 0; i < myHand.size() - 1)
-    for(int j = i + 1; j < myHand.size())
+  for(int i = 0; i < myHand.size() - 1; i++)
+    for(int j = i + 1; j < myHand.size(); j++)
       if(myHand[i].getRank() == myHand[j].getRank()) {
+        c1 = myHand[i];
+        c2 = myHand[j];
         //c1 gets card i, c2 gets card j
         return true;
       }
@@ -103,5 +108,5 @@ int Player::getHandSize() const {
 }
 
 int Player::getBookSize() const {
-  return myBook.size();
+  return myBook.size()/2;
 }
