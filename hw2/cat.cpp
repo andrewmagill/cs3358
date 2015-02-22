@@ -20,6 +20,76 @@ class Cat {
 };
 
 int main() {
+  Cat litter[5];
+  
+  cout << sizeof(litter) << endl;
+  cout << sizeof(*litter) << endl;
+  cout << (sizeof(litter)/sizeof(*litter)) << endl;
+  
+  for(int i = 0; i < 5; i++) {
+    cout << litter[i].getName() << endl;
+  }
+  
+  for(int i = 0; i < 5; i++) {
+    litter[i] = Cat("bobby","black/white");
+  }
+  
+  for(int i = 0; i < 5; i++) {
+    cout << litter[i].getName() << endl;
+  }
+  
+  //
+  //for(int i = 0; i < 5; i++) {
+  //  litter[i] = new Cat("marm","orange");
+  //}
+  //
+  // error: no viable overloaded '='
+  // note: candidate function (the implicit copy assignment operator) not viable: no known conversion from 'Cat *' to
+  //    'const Cat' for 1st argument; dereference the argument with *
+  
+  Cat * newLitter[5];
+  
+  cout << sizeof(newLitter) << endl;  
+  cout << sizeof(*newLitter) << endl;
+  cout << (sizeof(newLitter)/sizeof(*newLitter)) << endl;
+  
+  for(int i = 0; i < 5; i++) {
+    newLitter[i] = new Cat("marm","orange");
+  }
+  
+  for(int i = 0; i < 5; i++) {
+    cout << newLitter[i]->getName() << endl;
+  }
+  
+  //
+  //delete newLitter;
+  //
+  //error: cannot delete expression of type 'Cat *[5]'
+  //
+  
+  cout << (sizeof(litter)/sizeof(*litter)) << endl;
+  
+  /*
+  for(int i = 0; i < 5; i++) {
+    delete newLitter[i];
+  }
+  */
+  
+  // i don't understand what's happening here /\
+  
+  // let's see what happens here
+  for(int i = 4; i >= 0; i--) {
+    delete newLitter[i];
+  }
+  
+  // i don't get it
+  
+  cout << (sizeof(litter)/sizeof(*litter)) << endl;
+  
+  for(int i = 0; i < 5; i++) {
+    cout << "hi " << newLitter[i]->getName() << endl;
+  }
+  
   Cat cat1("morris", "orange");
   
   cout << cat1.getName() << " is " << cat1.getColor() << endl;
