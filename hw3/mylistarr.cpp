@@ -30,11 +30,11 @@ void List_3358::insert ( const value_type & item ) {
 }
   
 void List_3358::remove ( ) {
-  cursor = 0;
+
 }
     
 void List_3358::reset ( ) {
-
+    cursor = 0;
 }
 
 bool List_3358::advance ( ) {
