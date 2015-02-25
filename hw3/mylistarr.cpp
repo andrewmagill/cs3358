@@ -27,6 +27,19 @@ List_3358::~List_3358 ( ) {
 
 void List_3358::insert ( const value_type & item ) {
 
+  if(!isFull()) {
+    if (atEOL()) {
+      values[cursor] = item;
+      currentSize++;
+      cursor++;
+    } else {
+      for (int i = currentSize; i > cursor; i--)
+        values[i] = values[i-1];
+      values[cursor] = item;
+      currentSize++;
+    }
+  }
+  
 }
   
 void List_3358::remove ( ) {
@@ -42,7 +55,7 @@ bool List_3358::advance ( ) {
   if (atEOL()) {
     return false;
   } else {
-    currentSize++;
+    cursor++;
   }
   
   return (!atEOL());
