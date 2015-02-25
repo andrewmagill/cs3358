@@ -35,5 +35,8 @@ int main() {
   
   cout << "get current (may be invalid): " << myList.getCurrent() << endl;
   
+  myList.remove();
+  
+  cout << "get current (may be invalid): " << myList.getCurrent() << endl;
   return 0;
 }

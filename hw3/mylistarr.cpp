@@ -43,7 +43,13 @@ void List_3358::insert ( const value_type & item ) {
 }
   
 void List_3358::remove ( ) {
-
+  
+  if (!atEOL() && !isEmpty()) {
+    for (int i = cursor; i < currentSize - 1; i++)
+      values[i] = values[i+1];
+    
+    currentSize--;
+  }
 }
     
 void List_3358::reset ( ) {
