@@ -144,14 +144,6 @@ void List_3358::remove ( ) {
   }  
   
   if(((cursor == tail)||(atEOL()))&&(tail == (currentSize - 1))) {
-    //check
-    cout << "end of array and end of list" << endl << endl;
-    /*
-    cout << "cursor " << cursor << endl;
-    cout << "head " << head << endl;
-    cout << "tail " << tail << endl;
-    cout << "deletionIndex " << deletionIndex << endl;
-    cout << "currentSize " << currentSize << endl;    */
     
     // if removing from the end of the array and the end of the list, you need to:
     // * set the next pointer of the previous item in the list to -1
@@ -167,14 +159,6 @@ void List_3358::remove ( ) {
   } else if(((cursor == tail)||(atEOL()))&&(tail != (currentSize - 1))) {
     
     deletionIndex = tail;
-    
-    cout << "end of list, not end of array" << endl << endl;
-    
-    cout << "cursor " << cursor << endl;
-    cout << "head " << head << endl;
-    cout << "tail " << tail << endl;
-    cout << "deletionIndex " << deletionIndex << endl;
-    cout << "currentSize " << currentSize << endl;    
     
     // if removing from the end of the list but not the end of the array, you need to:
     // * overwrite the element being removed with the last element of the array
@@ -211,21 +195,7 @@ void List_3358::remove ( ) {
       previous[lastItemsNextIndex] = deletionIndex;
     
     currentSize--;
-    
-    cout << "cursor " << cursor << endl;
-    cout << "head " << head << endl;
-    cout << "tail " << tail << endl;
-    cout << "deletionIndex " << deletionIndex << endl;
-    cout << "currentSize " << currentSize << endl;    
   } else if(cursor == currentSize - 1) {
-    //check
-    cout << "not end of list, end of array" << endl << endl;
-    /*
-    cout << "cursor " << cursor << endl;
-    cout << "head " << head << endl;
-    cout << "tail " << tail << endl;
-    cout << "deletionIndex " << deletionIndex << endl;
-    cout << "currentSize " << currentSize << endl;    */
     
     // if removing from not the end of the array but not the end of the list, you need to:
     // * set the next pointer of the previous item in the list to the next next pointer
@@ -243,14 +213,6 @@ void List_3358::remove ( ) {
     
     currentSize--;
   } else {
-    // check
-    cout << "not end of list, not the end of array" << endl << endl;
-    
-    cout << "cursor " << cursor << endl;
-    cout << "head " << head << endl;
-    cout << "tail " << tail << endl;
-    cout << "deletionIndex " << deletionIndex << endl;
-    cout << "currentSize " << currentSize << endl;    
     
     // if removing from not the end of the array and not the end of the list, you need to:
     //
