@@ -42,24 +42,37 @@ void MyList::insert ( const value_type & item ) {
 
 	if (isEmpty()) { // case 1
 		// point head and tail = temp
+		head = temp;
+		tail = temp;
 	} else if (atEOL()) { // case 2
 		// make temp the new tail:
 		// * point (current) tail->next to temp
 		// * point tail to temp
+		tail->next = temp;
+		tail = temp;
 	} else { // might be case 3 or 4
 		if (cursor == head) { // case 3
 			// make temp the new head:
 			// * point temp->next to (current) head
 			// * point head to temp
+			temp->next = head;
+			head = temp;
 		} else { // case 4
       // stick temp in the middle
 			// * we will need a temporary pointer, we'll call it p
 			// * point p to head
 			// * then we need to walk p down to the node before the cursor
-			//   (if we implement previous we would just point it to cursor-> previous)
+			//   (while not p-> == cursor, p = p->next // so that p is the node before the cursor)
+			//   (if we implement previous we would just point it to cursor->previous)
 			// * point p->next to temp
 			// * point temp->next to cursor
 			//   (so that you are inserting in front of the cursor)
+			Node *p = head;
+			while (p->next != cursor)
+			  p = p->next;
+
+			p->next = temp; // connects lhs to new node (temp)
+			temp->next = cursor; // connect new node (temp) to rhs
 		}
 	}
 }
