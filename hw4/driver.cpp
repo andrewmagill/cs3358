@@ -23,6 +23,33 @@ string isTrue(int test) {
     return "False";
 }
 
+void showList( MyList & ml ) {
+  ml.reset();
+
+  while (!ml.atEOL()) {
+    cout << ml.getCurrent() << endl;
+    ml.advance();
+  }
+}
+
+void advanceAll( MyList & ml ) {
+  // this is a shitty poopoo method
+  int count = 0;
+
+  ml.reset();
+
+  while (!ml.atEOL()) {
+    ml.advance();
+    count++;
+  }
+
+  ml.reset();
+
+  for(int i = 0; i < count-1; i++) {
+    ml.advance();
+  }
+}
+
 int main (int argc, char *argv[]) {
   parseArgs(argc, argv);
 
@@ -90,6 +117,42 @@ int main (int argc, char *argv[]) {
   newList.advance();
 
   cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "show list: " << endl;
+  showList(newList);
+
+  cout << "advancing to tail" << endl;
+  advanceAll(newList);
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "removing last element" << endl;
+  newList.remove();
+
+  cout << "show list: " << endl;
+  showList(newList);
+
+  cout << "resetting cursor" << endl;
+  newList.reset();
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "removing first element" << endl;
+  newList.remove();
+
+  cout << "show list: " << endl;
+  showList(newList);
+
+  cout << "advancing cursor" << endl;
+  newList.advance();
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "removing middle element" << endl;
+  newList.remove();
+
+  cout << "show list: " << endl;
+  showList(newList);
 
   return EXIT_SUCCESS;
 }
