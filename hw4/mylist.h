@@ -12,11 +12,31 @@ namespace cs3358 {
       typedef int value_type;
       typedef size_t size_type;
 
+      // constructors
+
       MyList ( );
 
       MyList ( const MyList & src );
 
       ~MyList ( );
+
+      // mutators
+
+      void insert ( const value_type & item );
+
+      void remove ( );
+
+      void reset ( );
+
+      bool advance ( );
+
+      // accessors
+
+      bool isEmpty ( ) const;
+
+      bool atEOL ( ) const;
+
+      value_type getCurrent ( ) const;
 
     private:
 
