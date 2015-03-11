@@ -32,5 +32,18 @@ int main (int argc, char *argv[]) {
   cout << "The cursor is at the end of the list: " << isTrue( newList.atEOL() ) << endl;
   cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
 
+  cout << "Inserting new node" << endl;
+  newList.insert(5);
+
+  cout << "advancing cursor" << endl;
+  newList.advance();
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "resetting cursor" << endl;
+  newList.reset();
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
   return EXIT_SUCCESS;
 }

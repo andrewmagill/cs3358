@@ -28,7 +28,52 @@ MyList::~MyList () {
 
 // mutators
 
+void MyList::insert ( const value_type & item ) {
+	// not implementing isFull, not going to check for that
+	Node *temp = new Node;
+	temp->value = item;
+	temp->next = NULL;
 
+	// four cases:
+	// 1) list is empty
+	// 2) cursor is at EOL
+	// 3) cursor is at head
+	// 4) cursor is in the middle
+
+	if (isEmpty()) { // case 1
+		// point head and tail = temp
+	} else if (atEOL()) { // case 2
+		// make temp the new tail:
+		// * point (current) tail->next to temp
+		// * point tail to temp
+	} else { // might be case 3 or 4
+		if (cursor == head) { // case 3
+			// make temp the new head:
+			// * point temp->next to (current) head
+			// * point head to temp
+		} else { // case 4
+      // stick temp in the middle
+			// * we will need a temporary pointer, we'll call it p
+			// * point p to head
+			// * then we need to walk p down to the node before the cursor
+			//   (if we implement previous we would just point it to cursor-> previous)
+			// * point p->next to temp
+			// * point temp->next to cursor
+			//   (so that you are inserting in front of the cursor)
+		}
+	}
+}
+
+void MyList::reset ( ) {
+	cursor = head;
+}
+
+bool MyList::advance ( ) {
+	if(!atEOL())
+	  cursor = cursor->next;
+
+	return (!atEOL());
+}
 
 // accessors
 
