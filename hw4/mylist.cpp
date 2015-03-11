@@ -77,6 +77,41 @@ void MyList::insert ( const value_type & item ) {
 	}
 }
 
+void MyList::remove ( ) {
+	// do nothing if list is empty
+	if (atEOL() && isEmpty()) // not sure why isEmpty() isn't sufficient
+	  return;
+
+	// three cases (non-empty list):
+	// 1) the cursor is at the head
+	// 2) the cursor is at the tail
+	// 3) the cursor is in the middle
+
+	if (cursor == head) { // case 1
+		// Not: p points to head at this point
+		// * point head to head->next
+		// * delete node pointed to by p (former head)
+		// * point the cursor to the new head
+		// * if head is null (because we deleted the only item in the list)
+		//   then we need to set tail == NULL, because we deleted the node it was pointing to
+	} else { // case 2 or case 3
+		// * point p to node before the cursor
+		// * point p->next to the node after the cursor
+
+		if (cursor == tail) { // case 2
+			// * delete the node pointed to by the cursor
+			// * point the tail to p;
+			// ! I think p->next should be NULL
+			// * set the cursor = NULL (EOL)
+
+		}	else { // case 3
+			// * delete the node pointed to by the cursor
+			// * point the cursor to the node that was after the cursor (before we deleted it)
+
+		}
+	}
+}
+
 void MyList::reset ( ) {
 	cursor = head;
 }
