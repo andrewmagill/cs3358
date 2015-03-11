@@ -129,8 +129,7 @@ namespace cs3358 {
       //The list is unaffected. 
        
        value_type getCurrent ( ) const;
-      
-  
+        
      
    private:
       

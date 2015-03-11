@@ -17,9 +17,6 @@ Updated Fall 2009
 
 #include <cstdlib>  // Provides size_t
 
-
-
-
 using namespace std;
 
 
