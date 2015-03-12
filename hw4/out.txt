@@ -1,0 +1,56 @@
+The list is empty: True
+The cursor is at the end of the list: True
+Get the value of the element pointed to by the cursor: 1
+--------
+Inserting 5
+Inserting 51
+Get the value of the element pointed to by the cursor: 1
+--------
+advancing cursor
+Get the value of the element pointed to by the cursor: 1
+resetting cursor
+Get the value of the element pointed to by the cursor: 5
+advancing cursor
+Get the value of the element pointed to by the cursor: 51
+resetting cursor
+--------
+Inserting 3
+resetting cursor
+Get the value of the element pointed to by the cursor: 3
+advancing cursor
+advancing cursor
+Inserting 99
+--------
+resetting cursor
+advancing cursor
+advancing cursor
+Get the value of the element pointed to by the cursor: 99
+show list: 
+Item 0	:	3
+Item 1	:	5
+Item 2	:	99
+Item 3	:	51
+--------
+advancing to tail
+Get the value of the element pointed to by the cursor: 51
+removing last element
+show list: 
+Item 0	:	3
+Item 1	:	5
+Item 2	:	99
+--------
+resetting cursor
+Get the value of the element pointed to by the cursor: 3
+removing first element
+Get the value of the element pointed to by the cursor: 5
+show list: 
+Item 0	:	5
+Item 1	:	99
+--------
+advancing cursor
+Get the value of the element pointed to by the cursor: 99
+removing middle element
+show list: 
+Item 0	:	5
+
+========== time: 1426112875==========

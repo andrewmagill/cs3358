@@ -13,7 +13,47 @@ MyList::MyList () {
 }
 
 MyList::MyList (const MyList & src) {
+	// cases:
+	// 1) src is empty
+	// 2) src is not empty
 
+	if (src.head == NULL) {
+		// like the default constructor
+		head = NULL;
+		tail = NULL;
+		cursor = NULL;
+	} else {
+		// we will need these
+		Node *temp;
+		Node *prev = NULL;
+
+		// move through the list until next is NULL
+		for (Node *p = src.head; p != NULL; p=p->next) {
+
+			temp = new Node;
+			temp->value = p->value;
+			temp->next = NULL;
+
+			// the first time we run through this we want to point
+			// prev to temp, on subsequent iterations, point prev->next to temp,
+			// then prev to temp
+			if (prev == Null) {
+				prev = temp;
+			} else {
+				// attaching out new node to the list
+				prev->next = temp;
+				prev = temp;
+			}
+
+			// fix up the head, tail, cursor
+			if ( p == src.head )
+			  head = temp;
+			if ( p == src.cursor )
+			  cursor = temp;
+			if ( p == src.tail )
+			  tail = temp;
+		}
+	}
 }
 
 MyList::~MyList () {
@@ -34,6 +74,7 @@ void MyList::insert ( const value_type & item ) {
 	Node *temp = new Node;
 	temp->value = item;
 	temp->next = NULL;
+	temp->previous = NULL;
 
 	// four cases:
 	// 1) list is empty
@@ -50,6 +91,7 @@ void MyList::insert ( const value_type & item ) {
 		// * point (current) tail->next to temp
 		// * point tail to temp
 		tail->next = temp;
+		temp->previous = tail;
 		tail = temp;
 	} else { // might be case 3 or 4
 		if (cursor == head) { // case 3
@@ -80,11 +122,9 @@ void MyList::insert ( const value_type & item ) {
 
 void MyList::remove ( ) {
 	// do nothing if list is empty
-	cout << "	*	*	*\tremove - beginning\t\t*	*	*" << endl;
 	if (atEOL() && isEmpty()) // not sure why isEmpty() isn't sufficient
 	  return;
 
-		cout << "	*	*	*\tremove - after first return\t*	*	*" << endl;
 	// three cases (non-empty list):
 	// 1) the cursor is at the head
 	// 2) the cursor is at the tail
@@ -93,7 +133,6 @@ void MyList::remove ( ) {
 	Node *p = head; // we're going to need this
 
 	if (cursor == head) { // case 1
-		cout << "	*	*	*\tremove - case 1\t\t*	*	*" << endl;
 
 		// Note: p points to head at this point
 		// * point head to head->next
@@ -109,29 +148,24 @@ void MyList::remove ( ) {
 		if (head == NULL)
 		  tail = NULL;
 	} else { // case 2 or case 3
-		cout << "	*	*	*\tremove - case 2/3\t\t*	*	*" << endl;
-
 		// * point p to node before the cursor
 		// * point p->next to the node after the cursor
-
       while (p->next != cursor)
 		    p = p->next;
 
 			p->next = cursor->next;
 
 		if (cursor == tail) { // case 2
-			cout << "	*	*	*\tremove - case 2\t\t*	*	*" << endl;
 			// * delete the node pointed to by the cursor
 			// * point the tail to p;
 			// ! I think p->next should be NULL
 			// * set the cursor = NULL (EOL)
 
       delete cursor;
-			p->next = NULL;
 			tail = p;
+			p->next = NULL;
 			cursor = NULL;
 		}	else { // case 3
-			cout << "	*	*	*\tremove\t-\tcase 3\t*	*	*" << endl;
 			// * delete the node pointed to by the cursor
 			// * point the cursor to the node that was after the cursor (before we deleted it)
 

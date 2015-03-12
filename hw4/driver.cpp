@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <assert.h>
+#include <time.h>
 #include "mylist.h"
 
 using namespace std;
@@ -26,10 +27,15 @@ string isTrue(int test) {
 void showList( MyList & ml ) {
   ml.reset();
 
+  int count = 0;
+
   while (!ml.atEOL()) {
-    cout << ml.getCurrent() << endl;
+    cout << "Item " << count << "\t:\t" << ml.getCurrent() << endl;
     ml.advance();
+    count++;
   }
+
+  ml.reset();
 }
 
 void advanceAll( MyList & ml ) {
@@ -59,6 +65,8 @@ int main (int argc, char *argv[]) {
   cout << "The cursor is at the end of the list: " << isTrue( newList.atEOL() ) << endl;
   cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
 
+  cout << "--------" << endl;
+
   int value = 5;
 
   cout << "Inserting " << value << endl;
@@ -70,15 +78,7 @@ int main (int argc, char *argv[]) {
 
   cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
 
-  cout << "advancing cursor" << endl;
-  newList.advance();
-
-  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
-
-  cout << "resetting cursor" << endl;
-  newList.reset();
-
-  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+  cout << "--------" << endl;
 
   cout << "advancing cursor" << endl;
   newList.advance();
@@ -87,6 +87,18 @@ int main (int argc, char *argv[]) {
 
   cout << "resetting cursor" << endl;
   newList.reset();
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "advancing cursor" << endl;
+  newList.advance();
+
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
+  cout << "resetting cursor" << endl;
+  newList.reset();
+
+  cout << "--------" << endl;
 
   value = 3;
   cout << "Inserting " << value << endl;
@@ -107,6 +119,8 @@ int main (int argc, char *argv[]) {
   cout << "Inserting " << value << endl;
   newList.insert(value);
 
+  cout << "--------" << endl;
+
   cout << "resetting cursor" << endl;
   newList.reset();
 
@@ -120,6 +134,8 @@ int main (int argc, char *argv[]) {
 
   cout << "show list: " << endl;
   showList(newList);
+
+  cout << "--------" << endl;
 
   cout << "advancing to tail" << endl;
   advanceAll(newList);
@@ -132,6 +148,8 @@ int main (int argc, char *argv[]) {
   cout << "show list: " << endl;
   showList(newList);
 
+  cout << "--------" << endl;
+
   cout << "resetting cursor" << endl;
   newList.reset();
 
@@ -140,8 +158,12 @@ int main (int argc, char *argv[]) {
   cout << "removing first element" << endl;
   newList.remove();
 
+  cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
+
   cout << "show list: " << endl;
   showList(newList);
+
+  cout << "--------" << endl;
 
   cout << "advancing cursor" << endl;
   newList.advance();
@@ -149,10 +171,13 @@ int main (int argc, char *argv[]) {
   cout << "Get the value of the element pointed to by the cursor: " << newList.getCurrent() << endl;
 
   cout << "removing middle element" << endl;
-  newList.remove();
+  newList.remove(); // seg fault
 
   cout << "show list: " << endl;
   showList(newList);
+
+  time_t t;
+  cout << endl << "========== time: " << time(&t) << "==========" << endl;
 
   return EXIT_SUCCESS;
 }
