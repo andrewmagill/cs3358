@@ -37,7 +37,7 @@ MyList::MyList (const MyList & src) {
 			// the first time we run through this we want to point
 			// prev to temp, on subsequent iterations, point prev->next to temp,
 			// then prev to temp
-			if (prev == Null) {
+			if (prev == NULL) {
 				prev = temp;
 			} else {
 				// attaching out new node to the list
