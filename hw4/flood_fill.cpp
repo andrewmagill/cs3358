@@ -34,7 +34,10 @@ struct Coord {
     }
 
     string toString() {
-      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+      std::stringstream ss;
+      ss << "hello world" <<;
+      std::string str = ss.str();
+      return ss;//"(" + std::to_string(x) + ", " + std::to_string(y) + ")";
     }
     /*
     ostream& operator << (ostream& os, const Coord& rhs) {
