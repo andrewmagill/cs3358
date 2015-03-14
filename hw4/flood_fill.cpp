@@ -127,7 +127,7 @@ Coord getStartingPosition(int maxHeight, int maxWidth) {
   return start;
 }
 
-vector<string> readInFromFile(string fileName) {
+vector<string> readInFromFile(char* fileName) {
 
   ifstream inFile ( fileName );
   vector<string> box;
