@@ -73,9 +73,6 @@ int main (int argc, char * argv[]) {
     return EXIT_FAILURE;
   }
 
-  const string openingCharacters = "([{<";
-  const string closingCharacters = ")]}>";
-
   ifstream inFile ( argv[1] );
   string equationString;
   Stack_3358<char> groupingCharStack;
@@ -97,7 +94,7 @@ int main (int argc, char * argv[]) {
           cout << "The equation:\t" << equationString << tabs << "is formed correctly!" << endl;
         }
       }
-      
+
       groupingCharStack.makeEmpty();
     }
   } else {
