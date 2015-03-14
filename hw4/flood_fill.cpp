@@ -171,17 +171,20 @@ int main (int argc, char * argv[]) {
   }
 
   Stack_3358<Coord> pixelStack;
-
+  pixelStack.push(start);
+/*
   Direction direction = NORTH;
 
   travel(box, visited, pixelStack, direction, start, targetColor, fillColor);
-
-cout << pixelStack.isEmpty() << endl;
-
+*/
   while(!pixelStack.isEmpty()) {
     Coord pos = pixelStack.pop();
-    cout << "hi" << endl;
     cout << pos.toString() << endl;
+    
+    travel(box, visited, pixelStack, direction, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, SOUTH, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, EAST, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, WEST, pos, targetColor, fillColor);
   }
 
   cout << "\nflood filled picture \n\n";
