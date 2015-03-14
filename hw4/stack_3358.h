@@ -11,10 +11,10 @@ class Stack_3358 {
   public:
 
     typedef int size_type;
-/*
+
     Stack_3358();
     Stack_3358(const Stack_3358 & src);
-*/
+
     void makeEmpty();
     void push(const ItemType &);
     ItemType pop();
@@ -37,28 +37,46 @@ class Stack_3358 {
 #endif
 
 // constructors
-/*
+
 template<class ItemType>
 Stack_3358<ItemType>::Stack_3358 ( ) { }
 
 template<class ItemType>
 Stack_3358<ItemType>::Stack_3358 ( const Stack_3358 & src ) { }
-*/
+
 // mutators
 
 template<class ItemType>
 void Stack_3358 <ItemType>::makeEmpty() {
-
+  while(!list.isEmpty()) {
+    list.remove();
+  }
 }
 
 template<class ItemType>
 void Stack_3358 <ItemType>::push(const ItemType& newItem) {
+  if(!list.atEOL()) {
+    while(!list.atEOL()) {
+      list.advance();
+    }
+  }
   list.insert(newItem);
 }
 
 template<class ItemType>
 ItemType Stack_3358 <ItemType>::pop() {
+  if (!list.isEmpty()) {
+    if (list.atEOL())
+      list.regress();
 
+    ItemType value = list.getCurrent();
+    list.remove();
+
+    return value;
+  }
+
+  ItemType dummyval;
+  return dummyval;
 }
 
 // accessors
@@ -70,6 +88,8 @@ bool Stack_3358 <ItemType>::isEmpty() const {
 
 template<class ItemType>
 bool Stack_3358 <ItemType>::isFull() const {
+  return false;
+
   try
   {
     //Node*  listNode = new Node(value);

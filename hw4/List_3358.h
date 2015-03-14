@@ -249,7 +249,7 @@ namespace cs3358_LL {
     } else {
       cursor = cursor->previous;
       return true;
-    }    
+    }
   }
 
   // accessors
@@ -273,6 +273,9 @@ namespace cs3358_LL {
         return cursor->value;
       }
     }
+
+    T dummyval;
+    return dummyval;
   }
 }
 
