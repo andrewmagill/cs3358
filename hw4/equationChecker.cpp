@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
-#include "Stack_3358.h"
+#include "stack_3358.h"
 
 using namespace std;
 
