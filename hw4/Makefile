@@ -1,10 +1,4 @@
-all: list stack equationchecker floodfill
-
-list: testMyTemplate.cpp
-	g++ testMyTemplate.cpp -o list_test
-
-stack: testMyStack.cpp
-	g++ testMyStack.cpp -o stack_test
+all: equationchecker floodfill
 
 equationchecker: equationChecker.cpp
 	g++ equationChecker.cpp -o eqchecker
