@@ -127,29 +127,45 @@ Coord getStartingPosition(int maxHeight, int maxWidth) {
   return start;
 }
 
-vector<string> readInFromFile(char* fileName) {
+vector<string> readInFromFile(char* fileName, int &lineNumber) {
 
   ifstream inFile ( fileName );
   vector<string> box;
   string line;
 
   int linesize = 0;
+  int readlines = 0;
+  int processedlines = 0;
 
   if ( inFile.is_open () ) {
     string border;
     while ( getline ( inFile, line ) ) {
+      readlines++;
+      if(readlines<=lineNumber) {
+        cout << "skipping" << readlines << endl;
+        continue;
+      }
+      if(processedlines>=25)
+        break;
+
+      cout << "not skipping " << readlines << endl;
+
       if(box.size() == 0) {
         linesize = line.size();
         for(int i = 0; i < linesize+2; i++)
           border += '\0';
         box.push_back(border);
+      } else if ((!isalpha(line[0])) && (readlines > 1)) {
+        break;
       }
 
       box.push_back('\0' + line + '\0');
+      processedlines++;
     }
     box.push_back(border);
   }
 
+  lineNumber += readlines;
   return box;
 }
 
@@ -169,55 +185,62 @@ int main (int argc, char * argv[]) {
   if ( argc != 2 ) {
     cerr << "Error: Invalid parameters." << endl;
     cerr << "Please enter a file name to analyze." << endl;
-    cerr << "Ex:  $ ./equationChecker eq.dat" << endl;
+    cerr << "Ex:  $ ./flood_fill fake_picture.txt" << endl;
     return EXIT_FAILURE;
   }
 
-  vector<string> box = readInFromFile(argv[1]);
+  int lineNumber = 0;
 
-  vector< vector<bool> > visited(box.size(),vector<bool>(box[0].size()));
+  for(int r = 0; r < 25; r++) {
 
-  cout << "\noriginal picture: \n\n";
+    vector<string> box = readInFromFile(argv[1], lineNumber);
 
-  showPicture(box);
+    vector< vector<bool> > visited(box.size(),vector<bool>(box[0].size()));
 
-  int pictureHeight = box.size()-2;
-  int pictureWidth = box[0].size()-2;
+    cout << "\noriginal picture: \n\n";
 
-  Coord start = getStartingPosition(pictureHeight, pictureWidth);
+    showPicture(box);
 
-  char fillColor = getFillColor();
+    int pictureHeight = box.size()-2;
+    int pictureWidth = box[0].size()-2;
 
-  char targetColor = box[start.y][start.x];
+    Coord start = getStartingPosition(pictureHeight, pictureWidth);
 
-  if (targetColor == '\0') {
-    cerr << "Starting position is out of bounds." << endl;
-    return EXIT_FAILURE;
+    char fillColor = getFillColor();
+
+    char targetColor = box[start.y][start.x];
+
+    if (targetColor == '\0') {
+      cerr << "Starting position is out of bounds." << endl;
+      return EXIT_FAILURE;
+    }
+
+    Stack_3358<Coord> pixelStack;
+    pixelStack.push(start);
+
+    while(!pixelStack.isEmpty()) {
+      Coord pos = pixelStack.pop();
+      visited[pos.y][pos.x] = true;
+      //cout << pos.toString() << endl;
+
+      travel(box, visited, pixelStack, NORTH, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, NORTHEAST, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, EAST, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, SOUTHEAST, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, SOUTH, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, SOUTHWEST, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, WEST, pos, targetColor, fillColor);
+      travel(box, visited, pixelStack, NORTHWEST, pos, targetColor, fillColor);
+
+      box[pos.y][pos.x] = fillColor;
+    }
+
+    cout << "\nflood filled picture \n\n";
+
+    showPicture(box);
+
+    cout << "\n--------------\n" << endl;
   }
-
-  Stack_3358<Coord> pixelStack;
-  pixelStack.push(start);
-
-  while(!pixelStack.isEmpty()) {
-    Coord pos = pixelStack.pop();
-    visited[pos.y][pos.x] = true;
-    //cout << pos.toString() << endl;
-
-    travel(box, visited, pixelStack, NORTH, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, NORTHEAST, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, EAST, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, SOUTHEAST, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, SOUTH, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, SOUTHWEST, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, WEST, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, NORTHWEST, pos, targetColor, fillColor);
-
-    box[pos.y][pos.x] = fillColor;
-  }
-
-  cout << "\nflood filled picture \n\n";
-
-  showPicture(box);
 
   return EXIT_SUCCESS;
 }
