@@ -158,22 +158,18 @@ int main (int argc, char * argv[]) {
 
   char fillColor = getFillColor();
 
-  char originalColor = box[start.y][start.x];
+  char targetColor = box[start.y][start.x];
 
   if (originalColor == '\0') {
-    cerr << "uh oh" << endl;
+    cerr << "Starting position is out of bounds." << endl;
     return EXIT_FAILURE;
   }
 
   Stack_3358<Coord> pixelStack;
-/*
-  travel(vector<string> & box,
-    vector<vector<bool> > &visited,
-    Stack_3358<Coord> pixelStack,
-    Direction direction, Coord start,
-    char target, char fill)
-*/
-  //fill(box, visited, pixelStack, start, originalColor, color);
+
+  Direction direction = Direction.NORTH;
+
+  travel(box, visited, pixelStack, direction, start, targetColor, fillColor)
 
   cout << "\nflood filled picture \n\n";
 
