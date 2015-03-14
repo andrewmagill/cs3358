@@ -43,7 +43,7 @@ struct Coord {
     }*/
 };
 
-enum Direction { NORTH, SOUTH, EAST, WEST };
+enum Direction { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
 
 void travel(vector<string> & box,
   vector<vector<bool> > &visited,
@@ -57,22 +57,35 @@ void travel(vector<string> & box,
     case NORTH :
       diff = Coord(0,-1);
       break;
-    case SOUTH :
-      diff = Coord(0,+1);
-      break;
+    case NORTHEAST :
+      diff = Coord(1,-1);
     case EAST :
-      diff = Coord(+1,0);
+      diff = Coord(1,0);
+      break;
+    case SOUTHEAST :
+      diff = Coord(1,1);
+      break;
+    case SOUTH :
+      diff = Coord(0,1);
+      break;
+    case SOUTHWEST :
+      diff = Coord(-1,1);
       break;
     case WEST :
       diff = Coord(-1,0);
       break;
+    case NORTHWEST :
+      diff = Coord(-1,-1);
+      break;
+
   }
 
   while(box[start.y][start.x] == target) {
     if(!visited[start.y][start.x])
       pixelStack.push(start);
-    visited[start.y][start.x] = true;
+    //visited[start.y][start.x] = true;
     start = start + diff;
+    cout << start.toString() << endl;
   }
 }
 
@@ -179,12 +192,19 @@ int main (int argc, char * argv[]) {
 */
   while(!pixelStack.isEmpty()) {
     Coord pos = pixelStack.pop();
+    visited[pos.y][pos.x] = true;
     cout << pos.toString() << endl;
-    
-    travel(box, visited, pixelStack, direction, pos, targetColor, fillColor);
-    travel(box, visited, pixelStack, SOUTH, pos, targetColor, fillColor);
+
+    travel(box, visited, pixelStack, NORTH, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, NORTHEAST, pos, targetColor, fillColor);
     travel(box, visited, pixelStack, EAST, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, SOUTHEAST, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, SOUTH, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, SOUTHWEST, pos, targetColor, fillColor);
     travel(box, visited, pixelStack, WEST, pos, targetColor, fillColor);
+    travel(box, visited, pixelStack, NORTHWEST, pos, targetColor, fillColor);
+
+    box[pos.y][pos.x] = fillColor;
   }
 
   cout << "\nflood filled picture \n\n";
