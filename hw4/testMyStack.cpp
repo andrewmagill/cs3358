@@ -20,5 +20,7 @@ int main() {
 
   myStack.makeEmpty();
 
+  cout << "is full?" << myStack.isFull();
+
   cout << "is the stack empty? " << myStack.isEmpty() << endl;
 }

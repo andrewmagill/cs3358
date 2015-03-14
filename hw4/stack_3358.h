@@ -10,16 +10,55 @@ template<class ItemType>
 class Stack_3358 {
   public:
 
-    typedef int size_type;
-
+    // constructor - default
     Stack_3358();
+
+    // constructor - copy
     Stack_3358(const Stack_3358 & src);
 
+    /****************************
+    makeEmpty
+
+    Function: Removes all the items from the stack.
+    Preconditions: Stack has been initialized
+    Postconditions: All the items have been removed
+    *****************************/
     void makeEmpty();
+
+    /****************************
+    push
+
+    Function: Adds newItem to the top of the stack.
+    Preconditions: Stack has been initialized and is not full.
+    Postconditions: newItem is at the top of the stack.
+    *****************************/
     void push(const ItemType &);
+
+    /****************************
+    pop
+
+    Function: Removes topItem from stack and returns it.
+    Preconditions: Stack has been initialized and is not empty.
+    Postconditions: Top element has been removed from stack and item is a copy of the removed element.
+    *****************************/
     ItemType pop();
 
+    /****************************
+    isEmpty
+
+    Function: Checks to see if there are any items on the stack.
+    Preconditions: Stack has been initialized
+    Postconditions: Returns true if there are no items on the stack, else false.
+    *****************************/
     bool isEmpty() const;
+
+    /****************************
+    isFull
+
+    Function: Determines if you have any more room to add items to the stack
+    Preconditions: Stack has been initialized
+    Postconditions: Returns true if there is no more room to add items, else false
+    *****************************/
     bool isFull() const;
 
   private:
@@ -89,16 +128,4 @@ bool Stack_3358 <ItemType>::isEmpty() const {
 template<class ItemType>
 bool Stack_3358 <ItemType>::isFull() const {
   return false;
-
-  try
-  {
-    //Node*  listNode = new Node(value);
-    // guaranteed to be a good alloc if we reach here
-    //  if it was a bad alloc, we go to our catch
-    return true;
-  }
-  catch(std::bad_alloc& exc)
-  {
-    return false;
-  }
 }
