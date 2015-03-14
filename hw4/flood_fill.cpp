@@ -106,11 +106,19 @@ Coord getStartingPosition(int maxHeight, int maxWidth) {
   while( !((start.y>=1) && (start.y<=maxHeight)) ) {
     cout << "\nEnter a row (1 to "<< maxHeight <<"): ";
     cin >> start.y;
+    if(start.y < 0) {
+      cout << "Thank you, program exiting." << endl;
+      exit(0);
+    }
   }
 
   while( !((start.x>=1) && (start.x<=maxWidth)) ) {
     cout << "Enter a column (1 to " << maxWidth <<"): ";
     cin >> start.x;
+    if(start.x < 0) {
+      cout << "Thank you, program exiting." << endl;
+      exit(0);
+    }
   }
 
   return start;
@@ -133,6 +141,7 @@ vector<string> readInFromFile(string fileName) {
           border += '\0';
         box.push_back(border);
       }
+
       box.push_back('\0' + line + '\0');
     }
     box.push_back(border);
@@ -185,15 +194,11 @@ int main (int argc, char * argv[]) {
 
   Stack_3358<Coord> pixelStack;
   pixelStack.push(start);
-/*
-  Direction direction = NORTH;
 
-  travel(box, visited, pixelStack, direction, start, targetColor, fillColor);
-*/
   while(!pixelStack.isEmpty()) {
     Coord pos = pixelStack.pop();
     visited[pos.y][pos.x] = true;
-    cout << pos.toString() << endl;
+    //cout << pos.toString() << endl;
 
     travel(box, visited, pixelStack, NORTH, pos, targetColor, fillColor);
     travel(box, visited, pixelStack, NORTHEAST, pos, targetColor, fillColor);
