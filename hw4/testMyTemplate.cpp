@@ -1,5 +1,5 @@
 #include <iostream>
-#include "myTemplatedList.h"
+#include "List_3358.h"
 
 using namespace std;
 using namespace cs3358_LL;
@@ -27,28 +27,6 @@ int main() {
 
     batchProcess(myIntList, cmds);
     showList(myIntList);
-/*
-    myIntList.insert(435);
-
-    myIntList.insert(1);
-    myIntList.insert(324);
-    myIntList.insert(76);
-    myIntList.insert(657);
-
-    myIntList.remove();
-
-    myIntList.insert(39);
-    myIntList.insert(68);
-
-    myIntList.remove();
-    myIntList.remove();
-    myIntList.remove();
-    myIntList.remove();
-
-    myIntList.remove();
-
-    myIntList.insert(65);
-*/
   }
   catch (exception const& ex) {
       cerr << "Exception: " << ex.what() <<endl;
