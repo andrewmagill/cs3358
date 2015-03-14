@@ -2,7 +2,6 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
-#include <sstring>
 #include <vector>
 #include "stack_3358.h"
 
@@ -33,13 +32,13 @@ struct Coord {
     bool operator==(const Coord& src) const {
       return (x == src.x && y == src.y);
     }
-
+/*
     string toString() {
       std::stringstream ss;
       ss << "hello world" << endl;
       std::string str = ss.str();
       return ss;//"(" + std::to_string(x) + ", " + std::to_string(y) + ")";
-    }
+    }*/
     /*
     ostream& operator << (ostream& os, const Coord& rhs) {
         os << rhs.x << rhs.y;
@@ -89,7 +88,7 @@ void travel(vector<string> & box,
       pixelStack.push(start);
     //visited[start.y][start.x] = true;
     start = start + diff;
-    cout << start.toString() << endl;
+    //cout << start.toString() << endl;
   }
 }
 
