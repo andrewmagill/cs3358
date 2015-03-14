@@ -57,8 +57,6 @@ namespace cs3358_LL {
 
   template <class T>
   List_3358<T>::List_3358() {
-    cout<<"Constructor, allocate..."<<endl;
-
     head = NULL;
   	tail = NULL;
   	cursor = NULL;
@@ -66,8 +64,6 @@ namespace cs3358_LL {
 
   template <class T>
   List_3358<T>::List_3358 (const List_3358 & src) {
-    cout<<"Copy constructor, allocate..."<<endl;
-
     // cases:
   	// 1) src is empty
   	// 2) src is not empty
@@ -112,8 +108,6 @@ namespace cs3358_LL {
 
   template <class T>
   List_3358<T>::~List_3358() {
-    cout<<"Constructor, deallocate..."<<endl;
-
     // fun part
   	Node *p = head;
 

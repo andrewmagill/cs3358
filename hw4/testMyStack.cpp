@@ -20,7 +20,17 @@ int main() {
 
   myStack.makeEmpty();
 
-  cout << "is full?" << myStack.isFull();
+  cout << myStack.pop() << endl;
+
+  cout << "is full?" << myStack.isFull() << endl;
 
   cout << "is the stack empty? " << myStack.isEmpty() << endl;
+
+  Stack_3358<char> charStack;
+  charStack.push('a');
+  char popped = charStack.pop();
+  cout << "popped: " << popped << endl;
+  popped = charStack.pop();
+  cout << "popped: " << popped << endl;
+  cout << "bool test:" << isalpha(popped) << endl;
 }
