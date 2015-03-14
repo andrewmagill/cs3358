@@ -27,6 +27,7 @@ namespace cs3358_LL {
       void remove ( );
       void reset ( );
       bool advance ( );
+      bool regress ( );
 
       // accessors
 
@@ -236,6 +237,21 @@ namespace cs3358_LL {
   	return (!atEOL());
   }
 
+  template <class T>
+  bool List_3358<T>::regress ( ) {
+    if (isEmpty())
+      return false;
+    if (cursor == head)
+      return false;
+    if (atEOL()) {
+      cursor = tail;
+      return true;
+    } else {
+      cursor = cursor->previous;
+      return true;
+    }    
+  }
+
   // accessors
 
   template <class T>
@@ -250,8 +266,13 @@ namespace cs3358_LL {
 
   template <class T>
   T List_3358<T>::getCurrent ( ) const {
-  	if (!atEOL())
-  	  return cursor->value;
+    if (!isEmpty()) {
+      if(atEOL()) {
+        return tail->value;
+      } else {
+        return cursor->value;
+      }
+    }
   }
 }
 

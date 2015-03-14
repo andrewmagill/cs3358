@@ -23,10 +23,44 @@ int main() {
       cout << current << endl;
     }
 
+    myIntList.insert(45);
+    cout << "get current --- " << myIntList.getCurrent() << endl;
+
     int cmds[] = {4,456,2,-1,878,657,-1,123,32,-1,-1,-1,-1,-1};
 
+    cout << "batch process" << endl;
+
     batchProcess(myIntList, cmds);
+
+    cout << "show my list" << endl;
+
     showList(myIntList);
+
+    cout << "show my other list" << endl;
+
+    showList(myOtherIntList);
+
+    cout << "insert 98 my list" << endl;
+
+    myIntList.insert(98);
+
+    cout << "insert 62 my other list" << endl;
+
+    myOtherIntList.insert(62);
+
+    cout << "show my other list" << endl;
+
+    showList(myOtherIntList);
+
+    cout << "inserting 34" << endl;
+    myIntList.insert(34);
+    cout << "inserting 54" << endl;
+    myIntList.insert(54);
+    cout << "current: " << myIntList.getCurrent() << endl;
+    cout << "regress" << endl;
+    myIntList.regress();
+    myIntList.regress();
+    cout << "current: " << myIntList.getCurrent() << endl;
   }
   catch (exception const& ex) {
       cerr << "Exception: " << ex.what() <<endl;
