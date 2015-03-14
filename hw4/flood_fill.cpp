@@ -98,16 +98,9 @@ Coord getStartingPosition(int maxHeight, int maxWidth) {
   return start;
 }
 
-int main (int argc, char * argv[]) {
+vector<string> readInFromFile(string fileName) {
 
-  if ( argc != 2 ) {
-    cerr << "Error: Invalid parameters." << endl;
-    cerr << "Please enter a file name to analyze." << endl;
-    cerr << "Ex:  $ ./equationChecker eq.dat" << endl;
-    return EXIT_FAILURE;
-  }
-
-  ifstream inFile ( argv[1] );
+  ifstream inFile ( fileName );
   vector<string> box;
   string line;
 
@@ -127,23 +120,43 @@ int main (int argc, char * argv[]) {
     box.push_back(border);
   }
 
-  vector< vector<bool> > visited(box.size(),vector<bool>(linesize+2));
+  return box;
+}
 
-  cout << "\noriginal picture: \n\n";
-
-  showPicture(box);
-
-  int pictureHeight = box.size()-2;
-  int pictureWidth = linesize;
-
-  Coord start = getStartingPosition(pictureHeight, pictureWidth);
-
+char getFillColor() {
   char color = '-';
 
   while(!isalpha(color)) {
     cout << "Enter a color (English letter): ";
     cin >> color;
   }
+
+  return color;
+}
+
+int main (int argc, char * argv[]) {
+
+  if ( argc != 2 ) {
+    cerr << "Error: Invalid parameters." << endl;
+    cerr << "Please enter a file name to analyze." << endl;
+    cerr << "Ex:  $ ./equationChecker eq.dat" << endl;
+    return EXIT_FAILURE;
+  }
+
+  vector<string> box = readInFromFile(argv[1]);
+
+  vector< vector<bool> > visited(box.size(),vector<bool>(box[0].size()));
+
+  cout << "\noriginal picture: \n\n";
+
+  showPicture(box);
+
+  int pictureHeight = box.size()-2;
+  int pictureWidth = box[0].size()-2;
+
+  Coord start = getStartingPosition(pictureHeight, pictureWidth);
+
+  char fillColor = getFillColor();
 
   char originalColor = box[start.y][start.x];
 
@@ -152,9 +165,14 @@ int main (int argc, char * argv[]) {
     return EXIT_FAILURE;
   }
 
-
   Stack_3358<Coord> pixelStack;
-
+/*
+  travel(vector<string> & box,
+    vector<vector<bool> > &visited,
+    Stack_3358<Coord> pixelStack,
+    Direction direction, Coord start,
+    char target, char fill)
+*/
   //fill(box, visited, pixelStack, start, originalColor, color);
 
   cout << "\nflood filled picture \n\n";
