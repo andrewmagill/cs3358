@@ -32,13 +32,22 @@ struct Coord {
     bool operator==(const Coord& src) const {
       return (x == src.x && y == src.y);
     }
+
+    string toString() {
+      return "(" + to_string(x) + ", " + to_string(y) + ")";
+    }
+    /*
+    ostream& operator << (ostream& os, const Coord& rhs) {
+        os << rhs.x << rhs.y;
+        return os;
+    }*/
 };
 
 enum Direction { NORTH, SOUTH, EAST, WEST };
 
 void travel(vector<string> & box,
   vector<vector<bool> > &visited,
-  Stack_3358<Coord> pixelStack,
+  Stack_3358<Coord> &pixelStack,
   Direction direction, Coord start,
   char target, char fill) {
 
@@ -46,19 +55,15 @@ void travel(vector<string> & box,
 
   switch(direction) {
     case NORTH :
-      cout << "NORTH" << endl;
       diff = Coord(0,-1);
       break;
     case SOUTH :
-      cout << "SOUTH" << endl;
       diff = Coord(0,+1);
       break;
     case EAST :
-      cout << "EAST" << endl;
       diff = Coord(+1,0);
       break;
     case WEST :
-      cout << "WEST" << endl;
       diff = Coord(-1,0);
       break;
   }
@@ -160,16 +165,24 @@ int main (int argc, char * argv[]) {
 
   char targetColor = box[start.y][start.x];
 
-  if (originalColor == '\0') {
+  if (targetColor == '\0') {
     cerr << "Starting position is out of bounds." << endl;
     return EXIT_FAILURE;
   }
 
   Stack_3358<Coord> pixelStack;
 
-  Direction direction = Direction.NORTH;
+  Direction direction = NORTH;
 
-  travel(box, visited, pixelStack, direction, start, targetColor, fillColor)
+  travel(box, visited, pixelStack, direction, start, targetColor, fillColor);
+
+cout << pixelStack.isEmpty() << endl;
+
+  while(!pixelStack.isEmpty()) {
+    Coord pos = pixelStack.pop();
+    cout << "hi" << endl;
+    cout << pos.toString() << endl;
+  }
 
   cout << "\nflood filled picture \n\n";
 
