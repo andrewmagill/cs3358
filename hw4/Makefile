@@ -1,4 +1,13 @@
-all: mylist
+all: list stack equationchecker floodfill
 
-mylist: driver.cpp mylist.cpp
-	g++ -o mylist driver.cpp mylist.cpp
+list: testMyTemplate.cpp
+	g++ testMyTemplate.cpp -o list_test
+
+stack: testMyStack.cpp
+	g++ testMyStack.cpp -o stack_test
+
+equationchecker: equationChecker.cpp
+	g++ equationChecker.cpp -o eqchecker
+
+floodfill: flood_fill.cpp
+	g++ flood_fill.cpp -o flood_fill

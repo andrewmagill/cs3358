@@ -142,13 +142,10 @@ vector<string> readInFromFile(char* fileName, int &lineNumber) {
     while ( getline ( inFile, line ) ) {
       readlines++;
       if(readlines<=lineNumber) {
-        cout << "skipping" << readlines << endl;
         continue;
       }
       if(processedlines>=25)
         break;
-
-      cout << "not skipping " << readlines << endl;
 
       if(box.size() == 0) {
         linesize = line.size();
