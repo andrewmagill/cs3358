@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <sstring>
 #include <vector>
 #include "stack_3358.h"
 
@@ -34,7 +35,8 @@ struct Coord {
     }
 
     string toString() {
-      std::stringstream ss << "hello world" << endl;
+      std::stringstream ss;
+      ss << "hello world" << endl;
       std::string str = ss.str();
       return ss;//"(" + std::to_string(x) + ", " + std::to_string(y) + ")";
     }
