@@ -76,7 +76,6 @@ int main () {
     else
        cout << testNum << " is not prime." << endl;
 
-/*
     //test for printing primes
     cout << "Enter n to print the prime numbers between 1 and n: ";
     cin >> testNum;
@@ -85,7 +84,7 @@ int main () {
     printPrimes(testNum);
 
     cout << endl;
-
+/*
     //test for Fibonacci number finder
     cout << "Which Fibonacci number? ";
     cin >> testNum;
@@ -155,9 +154,16 @@ bool isPrime (int number, int divisor) {
 //Uses the isPrime method to print a list of prime numbers between 1 and n.
 
 void printPrimes (int n) {
+    if(n < 2)
+        return;
 
-   //YOUR CODE GOES HERE
+    printPrimes(n-1);
 
+    // we're starting at n and decrementing, but we want
+    // to list prime in ascending order, so we'll print out
+    // after the recursion
+    if(isPrime(n))
+        cout << n << " ";
 }
 
 
