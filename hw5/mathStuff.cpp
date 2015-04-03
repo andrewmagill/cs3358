@@ -116,7 +116,7 @@ int main () {
 //
 
 bool isPrime (int number, int divisor) {
-cout << " ------ count me -------- " << "(divisor = " << divisor << ")" << endl;
+
     // a prime number is by definition greater than 1
     if( number <= 1)
         return false;
