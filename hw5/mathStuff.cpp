@@ -79,7 +79,10 @@ int main () {
     //test for printing primes
     cout << "\nEnter n to print the prime numbers between 1 and n: ";
     cin >> testNum;
-    cout << endl;
+    if(testNum < 2)
+        cout << endl << testNum << " is too small.";
+    else
+        cout << endl << "Prime Numbers between 1 and " << testNum << ":\n\n";
 
     printPrimes(testNum);
 
@@ -97,9 +100,13 @@ int main () {
     //test for prime factors
     cout << "Factor what number: ";
     cin >> testNum;
-    cout << endl;
 
-    findFactors(testNum);
+    if(testNum > 1) {
+        cout << endl << "Prime factorization of " << testNum << ": ";
+        findFactors(testNum);
+    } else {
+        cout << endl << testNum << " is too small\n\n";
+    }
 
     return 0;
 }
