@@ -29,7 +29,6 @@ MyList::MyList (const MyList & src) {
 
 		// move through the list until next is NULL
 		for (Node *p = src.head; p != NULL; p=p->next) {
-
 			temp = new Node;
 			temp->value = p->value;
 			temp->next = NULL;
@@ -89,6 +88,7 @@ void MyList::insert ( const value_type & item ) {
 	} else if (atEOL()) { // case 2
 		// make temp the new tail:
 		// * point (current) tail->next to temp
+    // * point temp->previous to tail
 		// * point tail to temp
 		tail->next = temp;
 		temp->previous = tail;
@@ -97,25 +97,21 @@ void MyList::insert ( const value_type & item ) {
 		if (cursor == head) { // case 3
 			// make temp the new head:
 			// * point temp->next to (current) head
-			// * point head to temp
+			// * point head->previous to temp
+      // * point head to temp
 			temp->next = head;
+      head->previous = temp;
 			head = temp;
 		} else { // case 4
-      // stick temp in the middle
-			// * we will need a temporary pointer, we'll call it p
-			// * point p to head
-			// * then we need to walk p down to the node before the cursor
-			//   (while not p-> == cursor, p = p->next // so that p is the node before the cursor)
-			//   (if we implement previous we would just point it to cursor->previous)
-			// * point p->next to temp
-			// * point temp->next to cursor
-			//   (so that you are inserting in front of the cursor)
-			Node *p = head;
-			while (p->next != cursor)
-			  p = p->next;
-
-			p->next = temp; // connects lhs to new node (temp)
-			temp->next = cursor; // connect new node (temp) to rhs
+      // stick temp between nodes - note that order matters
+      // * point temp->next to the cursor, because we're sticking this behind the cursor
+      // * point temp->previous to cursor->previous
+      // * ok now point that previous node's next to temp
+      // * and finally point cursor->previous to temp
+      temp->next = cursor;
+      temp->previous = cursor->previous;
+      temp->previous->next = temp;
+      cursor->previous = temp;
 		}
 	}
 }
@@ -125,52 +121,38 @@ void MyList::remove ( ) {
 	if (atEOL() && isEmpty()) // not sure why isEmpty() isn't sufficient
 	  return;
 
-	// three cases (non-empty list):
-	// 1) the cursor is at the head
-	// 2) the cursor is at the tail
-	// 3) the cursor is in the middle
+  // conditional fall through:
+  // * cursor is pointing to the head
+  //   * and cursor is also pointing to the tail
+  // * cursor is pointing to the tail
+  // * cursor is pointing to a node in the middle
 
-	Node *p = head; // we're going to need this
-
-	if (cursor == head) { // case 1
-
-		// Note: p points to head at this point
-		// * point head to head->next
-		// * delete node pointed to by p (former head)
-		// * point the cursor to the new head
-		// * if head is null (because we deleted the only item in the list)
-		//   then we need to set tail == NULL, because we deleted the node it was pointing to
-
-		head = head->next;
-		delete p;
-		cursor = head;
-
-		if (head == NULL)
-		  tail = NULL;
-	} else { // case 2 or case 3
-		// * point p to node before the cursor
-		// * point p->next to the node after the cursor
-      while (p->next != cursor)
-		    p = p->next;
-
-			p->next = cursor->next;
-
-		if (cursor == tail) { // case 2
-			// * delete the node pointed to by the cursor
-			// * point the tail to p;
-			// ! I think p->next should be NULL
-			// * set the cursor = NULL (EOL)
-
+  if (cursor == head) {
+    if (cursor == tail) {
       delete cursor;
-			tail = p;
-			p->next = NULL;
-			cursor = NULL;
-		}	else { // case 3
-			// * delete the node pointed to by the cursor
-			// * point the cursor to the node that was after the cursor (before we deleted it)
+      cursor = NULL;
+      head = NULL;
+      tail = NULL;
+    } else {
+      head = head->next;
+      head->previous = NULL;
+      delete cursor;
+      cursor = head;
+    }
+  } else if (cursor == tail) {
+    tail = tail->previous;
+    tail->next = NULL;
+    delete cursor;
+    cursor = tail;
+  } else {
+    Node *nextNode = cursor->next;
+    Node *previousNode = cursor->previous;
 
-		}
-	}
+    nextNode->previous = previousNode;
+    previousNode->next = nextNode;
+    delete cursor;
+    cursor = nextNode;
+  }
 }
 
 void MyList::reset ( ) {
