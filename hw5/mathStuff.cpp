@@ -6,7 +6,7 @@ cs1428 10/15/07 (updated 04/02/15)
 CS 3358 Section 152
 Spring 2015
 HW 5 Part 1
-Inefficient Math with Recursion
+Math with Recursion
 */
 
 #include <iostream>
@@ -18,8 +18,8 @@ using namespace std;
 //**********  Function Prototypes  ******************
 
 //function isPrime
-//input parameters - required: positive integer,
-//                   optional: positive integer
+//input parameters - required: 'number', a positive integer,
+//                   optional: 'divisor', a positive integer
 //returns true if the number is prime, otherwise false
 //
 // isPrime(n) will call isPrime(n, floor(sqrt(n)), which
@@ -53,16 +53,16 @@ int findFibo (int n);
 
 
 //function findFactors
-//input parameter - positive integer
+//input parameters - required: 'number', a positive integer,
+//                   optional: 'divisor', a positive integer
 //prints the prime factors of the given number to standard output (cout)
 //example output: 52=2*2*13 (or 52=1*2*2*13) or 13=prime
 
-void findFactors (int number);
+void findFactors (int number, int divisor = 0);
 
 //******************  MAIN  *****************************
 
 int main () {
-
 
     int testNum;
 
@@ -77,7 +77,7 @@ int main () {
        cout << testNum << " is not prime." << endl;
 
     //test for printing primes
-    cout << "Enter n to print the prime numbers between 1 and n: ";
+    cout << "\nEnter n to print the prime numbers between 1 and n: ";
     cin >> testNum;
     cout << endl;
 
@@ -86,14 +86,14 @@ int main () {
     cout << endl;
 
     //test for Fibonacci number finder
-    cout << "Which Fibonacci number? ";
+    cout << "\nWhich Fibonacci number? ";
     cin >> testNum;
     cout << endl;
 
     cout << "The " << testNum << " Fibonacci number is : " << findFibo(testNum) << endl;
 
     cout << endl;
-/*
+
     //test for prime factors
     cout << "Factor what number: ";
     cin >> testNum;
@@ -101,18 +101,13 @@ int main () {
 
     findFactors(testNum);
 
-    system("PAUSE");
-*/
     return 0;
 }
 
-
-
-
 //function isPrime
-//input parameter - positive integer
+//input parameters - required: 'number', a positive integer,
+//                   optional: 'divisor', a positive integer
 //returns true if the number is prime, otherwise false
-//
 
 bool isPrime (int number, int divisor) {
 
@@ -166,8 +161,6 @@ void printPrimes (int n) {
         cout << n << " ";
 }
 
-
-
 //function findFibo
 //input parameter - positive integer
 //returns the nth fibonacci number where
@@ -175,6 +168,7 @@ void printPrimes (int n) {
 //Fib(1) -> 1
 //Fib(N) -> Fib(N-2) + Fib(N-1)
 //n max around 45 for this implementation
+
 int findFibo (int n) {
 
     if( n == 0 )
@@ -188,13 +182,48 @@ int findFibo (int n) {
 
 
 //function findFactors
-//input parameter - positive integer
+//input parameters - required: 'number', a positive integer,
+//                   optional: 'divisor', a positive integer
 //prints the prime factors of the given number to standard output (cout)
 //example output: 52=2*2*13 (or 52=1*2*2*13) or 13=prime
 
-void findFactors (int number) {
+void findFactors (int number, int divisor) {
+
     const int START_DIVISOR = 2; //HINT: You may want a helper function
 
-   //YOUR CODE GOES HERE
+    // 2 is the smallest prime, this is stopping condition
+    if( number <= 1 ) {
+        // this is a little hack to remove last '*'
+        cout << "\b " << endl;
+        return;
+    }
 
+    // if the divisor is larger than the numberator, there's no point
+    // in going any further, this is a stopping condition
+    if( divisor > number ) {
+        // this is a little hack to remove last '*'
+        cout << "\b " << endl;
+        return;
+    }
+
+    // start diving by 2, the first prime number
+    if( divisor < START_DIVISOR ) {
+        return findFactors(number, START_DIVISOR);
+    }
+
+    // if divisor is not prime, add one, try again
+    if( !isPrime(divisor) ) {
+        return findFactors(number, (divisor+1));
+    }
+
+    int remainder = (number % divisor);
+
+    // if divisible, print, then call self with quotient
+    if(remainder == 0) {
+        cout << divisor << "*";
+        int quotient = number / divisor;
+        return findFactors(quotient, divisor);
+    } else { // else call self with incremented divisor
+        return findFactors(number, (divisor+1));
+    }
 }
