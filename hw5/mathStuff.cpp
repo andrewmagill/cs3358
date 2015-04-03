@@ -84,7 +84,7 @@ int main () {
     printPrimes(testNum);
 
     cout << endl;
-/*
+
     //test for Fibonacci number finder
     cout << "Which Fibonacci number? ";
     cin >> testNum;
@@ -93,7 +93,7 @@ int main () {
     cout << "The " << testNum << " Fibonacci number is : " << findFibo(testNum) << endl;
 
     cout << endl;
-
+/*
     //test for prime factors
     cout << "Factor what number: ";
     cin >> testNum;
@@ -174,11 +174,16 @@ void printPrimes (int n) {
 //Fib(0) -> 0
 //Fib(1) -> 1
 //Fib(N) -> Fib(N-2) + Fib(N-1)
-
+//n max around 45 for this implementation
 int findFibo (int n) {
 
-   //YOUR CODE GOES HERE
+    if( n == 0 )
+        return 0;
 
+    if( n == 1 )
+        return 1;
+
+    return findFibo(n-2) + findFibo(n-1);
 }
 
 
