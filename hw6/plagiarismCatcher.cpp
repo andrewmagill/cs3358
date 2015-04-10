@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <dirent.h>
 #include <errno.h>
 #include <vector>
@@ -69,7 +70,7 @@ int get_dir_list(char * dir, vector<FILE_LOC> &files) {
 
 int process_files(const vector<FILE_LOC> &files, int chunksize) {
 
-    ifstream infile;
+    //ifstream infile;
     string filename;
     string path;
     string word;
@@ -78,6 +79,11 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
     for (int i = 0; i < files.size(); i++) {
       path = files[i].path;
       filename = files[i].filename;
+
+      ifstream infile(path + filename);
+
+      if( (filename == ".") || (filename == "..") )
+        continue;
 
       ofstream outfile;
       outfile.open("processed_chunks.txt", ios_base::app);
@@ -94,23 +100,22 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
       outfile << "+ chunk size: " << chunksize << endl;
       outfile << "++++++++++++++++++++\n" << endl;
 
-      if( !( (filename == ".") || (filename == "..") ) )
-        infile.open(path + filename);
+      //infile.open(path + filename);
 
-        chunk.clear();
+      chunk.clear();
 
-        if ( infile.is_open() )
+      if ( infile.is_open() )
 
-          while ( infile >> word ) {
-            word = strip_non_alpha(word);
-            chunk.push_back(word);
-            if(chunk.size() >= chunksize) { // shouldn't ever be > than
-              store_chunk(chunk, outfile);
-              chunk.pop_front();
-            }
+        while ( infile >> word ) {
+          word = strip_non_alpha(word);
+          chunk.push_back(word);
+          if(chunk.size() >= chunksize) { // shouldn't ever be > than
+            store_chunk(chunk, outfile);
+            chunk.pop_front();
           }
+        }
 
-          infile.close();
+        infile.close();
       }
 
     return 0;
