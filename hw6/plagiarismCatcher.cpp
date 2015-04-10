@@ -8,9 +8,9 @@
 
 using namespace std;
 
-int getdir(char * dir, vector<char *> &files);
+int getdir(char * dir, vector<string> &files);
 
-int processfile(char * filename, int chunksize);
+int processfiles(const vector<string> &files, int chunksize);
 
 int main(int argc, char *argv[]) {
   if(argc < 3) {
@@ -23,7 +23,6 @@ int main(int argc, char *argv[]) {
       return 0;
   }
 
-  char * path = argv[1];
   int chunksize = atoi(argv[2]);
 
   if((chunksize > 40) || (chunksize < 1)) {
@@ -31,22 +30,15 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  vector<char *> files = vector<char *>();
+  vector<string> files = vector<string>();
 
-  getdir(path, files);
-
-  char * filename;
-
-  for (int i = 0; i < files.size(); i++) {
-    filename = files[i];
-    if( !( (strncmp(filename, ".")) || (filename == "..") ) )
-      processfile(filename, chunksize);
-  }
+  getdir(argv[1], files);
+  processfiles(files, chunksize);
 
   return 0;
 }
 
-int getdir(char * dir, vector<char *> &files) {
+int getdir(char * dir, vector<string> &files) {
   DIR *dp;
   struct dirent *dirp;
 
@@ -65,9 +57,15 @@ int getdir(char * dir, vector<char *> &files) {
   return 0;
 }
 
-int processfile(char * filename, int chunksize) {
+int processfiles(const vector<string> &files, int chunksize) {
 
-    cout << filename << endl;
+    string filename = "";
+
+    for (int i = 0; i < files.size(); i++) {
+      filename = files[i];
+      if( !( (filename == ".") || (filename == "..") ) )
+        cout << i << files[i] << endl;
+    }
 
     return 0;
 }
