@@ -1,0 +1,20 @@
+//////////////////////////////////////////
+// CS 3358 Section 152 Spring 2015
+// Dr. Priebe
+// HW 6, Part 1
+// 05/09/2015
+//
+// Andrew Magill
+// a_m730
+//
+// program acepts command line arguments:
+// arg[1] = path, arg[2] = n
+// reads each file in given directory,
+// finds all consecutive n word sequences
+// output to console - AND - write to file
+// * I wasn't sure if I should write out
+// * to a file (processed_chunks.txt), it
+// * can get pretty big
+//
+// Build: make
+//////////////////////////////////////////
