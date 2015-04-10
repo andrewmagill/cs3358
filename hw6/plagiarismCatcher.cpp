@@ -17,6 +17,7 @@
 // * can get pretty big
 //////////////////////////////////////////
 
+#include <algorithm>
 #include <cstdlib>
 #include <dirent.h>
 #include <errno.h>
