@@ -2,3 +2,4 @@
 *.out
 *.o
 bin/
+*doc_set/
