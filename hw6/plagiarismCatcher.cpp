@@ -1,16 +1,23 @@
-#include <sys/types.h>
 #include <dirent.h>
 #include <errno.h>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <list>
 
 using namespace std;
 
-int getdir(char * dir, vector<string> &files);
+struct FILE_LOC {
+  string path;
+  string filename;
+};
 
-int processfiles(const vector<string> &files, int chunksize);
+int get_dir_list(char * dir, vector<FILE_LOC> &files);
+int process_files(const vector<FILE_LOC> &files, int chunksize);
+string strip_non_alpha(string word);
+bool strip_char(char c);
+int store_chunk(const list<string> & chunk);
 
 int main(int argc, char *argv[]) {
   if(argc < 3) {
@@ -30,15 +37,15 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  vector<string> files = vector<string>();
+  vector<FILE_LOC> files = vector<FILE_LOC>();
 
-  getdir(argv[1], files);
-  processfiles(files, chunksize);
+  get_dir_list(argv[1], files);
+  process_files(files, chunksize);
 
   return 0;
 }
 
-int getdir(char * dir, vector<string> &files) {
+int get_dir_list(char * dir, vector<FILE_LOC> &files) {
   DIR *dp;
   struct dirent *dirp;
 
@@ -49,7 +56,10 @@ int getdir(char * dir, vector<string> &files) {
   }
 
   while ((dirp = readdir(dp)) != NULL) {
-    files.push_back(string(dirp->d_name));
+    FILE_LOC file_location;
+    file_location.path = string(dir);
+    file_location.filename = string(dirp->d_name);
+    files.push_back(file_location);
   }
 
   closedir(dp);
@@ -57,15 +67,59 @@ int getdir(char * dir, vector<string> &files) {
   return 0;
 }
 
-int processfiles(const vector<string> &files, int chunksize) {
+int process_files(const vector<FILE_LOC> &files, int chunksize) {
 
-    string filename = "";
+    ifstream infile;
+    string filename;
+    string path;
+    string word;
+    list<string> chunk;
 
     for (int i = 0; i < files.size(); i++) {
-      filename = files[i];
+      path = files[i].path;
+      filename = files[i].filename;
+
+      cout << "\n++++++++++++++++++++" << endl;
+      cout << "+ file index: " << (i-1) << endl;
+      cout << "+ file name: " << filename << endl;
+      cout << "+ chunk size: " << chunksize << endl;
+      cout << "++++++++++++++++++++\n" << endl;
+
       if( !( (filename == ".") || (filename == "..") ) )
-        cout << i << files[i] << endl;
-    }
+        infile.open(path + filename);
+
+        chunk.clear();
+
+        if ( infile.is_open() )
+
+          while ( infile >> word ) {
+            word = strip_non_alpha(word);
+            chunk.push_back(word);
+            if(chunk.size() >= chunksize) {
+              store_chunk(chunk);
+              chunk.pop_front();
+            }
+          }
+
+          infile.close();
+      }
 
     return 0;
+}
+
+string strip_non_alpha(string word) {
+  word.erase(std::remove_if(word.begin(), word.end(), strip_char), word.end());
+  return word;
+}
+
+bool strip_char(char c) {
+  return !isalpha(c);
+}
+
+int store_chunk(const list<string> & chunk) {
+  for (list<string>::const_iterator iter = chunk.begin(); iter != chunk.end(); ++iter)
+	  cout << (*iter);
+  cout << "\n";
+
+  return 0;
 }
