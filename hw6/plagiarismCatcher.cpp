@@ -17,7 +17,7 @@ int get_dir_list(char * dir, vector<FILE_LOC> &files);
 int process_files(const vector<FILE_LOC> &files, int chunksize);
 string strip_non_alpha(string word);
 bool strip_char(char c);
-int store_chunk(const list<string> & chunk);
+int store_chunk(const list<string> & chunk, ofstream & outfile);
 
 int main(int argc, char *argv[]) {
   if(argc < 3) {
@@ -79,11 +79,20 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
       path = files[i].path;
       filename = files[i].filename;
 
+      ofstream outfile;
+      outfile.open("processed_chunks.txt", ios_base::app);
+
       cout << "\n++++++++++++++++++++" << endl;
       cout << "+ file index: " << (i-1) << endl;
       cout << "+ file name: " << filename << endl;
       cout << "+ chunk size: " << chunksize << endl;
       cout << "++++++++++++++++++++\n" << endl;
+
+      outfile << "\n++++++++++++++++++++" << endl;
+      outfile << "+ file index: " << (i-1) << endl;
+      outfile << "+ file name: " << filename << endl;
+      outfile << "+ chunk size: " << chunksize << endl;
+      outfile << "++++++++++++++++++++\n" << endl;
 
       if( !( (filename == ".") || (filename == "..") ) )
         infile.open(path + filename);
@@ -95,8 +104,8 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
           while ( infile >> word ) {
             word = strip_non_alpha(word);
             chunk.push_back(word);
-            if(chunk.size() >= chunksize) {
-              store_chunk(chunk);
+            if(chunk.size() >= chunksize) { // shouldn't ever be > than
+              store_chunk(chunk, outfile);
               chunk.pop_front();
             }
           }
@@ -116,10 +125,15 @@ bool strip_char(char c) {
   return !isalpha(c);
 }
 
-int store_chunk(const list<string> & chunk) {
-  for (list<string>::const_iterator iter = chunk.begin(); iter != chunk.end(); ++iter)
-	  cout << (*iter);
+int store_chunk(const list<string> & chunk, ofstream & outfile) {
+
+  for (list<string>::const_iterator iter = chunk.begin(); iter != chunk.end(); ++iter) {
+    cout << (*iter);
+    outfile << (*iter);
+  }
+
   cout << "\n";
+  outfile << "\n";
 
   return 0;
 }
