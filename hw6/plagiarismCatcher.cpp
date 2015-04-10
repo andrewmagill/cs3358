@@ -80,7 +80,9 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
       path = files[i].path;
       filename = files[i].filename;
 
-      ifstream infile(path + filename);
+      path = path + filename;
+
+      ifstream infile(path.c_str());
 
       if( (filename == ".") || (filename == "..") )
         continue;
