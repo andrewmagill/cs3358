@@ -4,3 +4,4 @@
 bin/
 *doc_set/
 *.txt
+*.pyc
