@@ -13,7 +13,19 @@ def merge_sort(sort_list):
     in right list, if left item is smaller than the right item, insert the
     left item into the first item of our new list.  then compare the next item
     in our left list to the first item in our right list, and so on, until
-    all items from both lists are merged into our new list."""
+    all items from both lists are merged into our new list.
+
+    time analysis:
+        worst: O(n log n)
+        best: O(n log n)
+        avg: O(n log n)
+
+    space analysis:
+        O(n) - worst case
+
+    method:
+        merging
+    """
     if len(sort_list) > 1:
         mid = len(sort_list) // 2
         left_half = sort_list[:mid]
