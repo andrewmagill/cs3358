@@ -46,6 +46,7 @@ def quick_sort_helper(sort_list, first, last):
 
 def partition(sort_list, first, last):
     pivot_value = sort_list[first]
+    print "list: {0}, first: {1}, last: {2}, sublist: {3}, pivot: {4}".format(sort_list, first, last, sort_list[first:last+1], pivot_value)
 
     i = first+1
     j = last
@@ -54,26 +55,31 @@ def partition(sort_list, first, last):
     while not done:
 
         while i <= j and sort_list[i] <= pivot_value:
+            print "value at i: list[{0}] = {1} is smaller than the pivot: {2}. incrementing i.".format(i, sort_list[i], pivot_value) 
             i = i+1
 
-        while sort_list[j] >= pivot_value and j >= i:		
+        while sort_list[j] >= pivot_value and j >= i:
+	    print "value at j: list[{0}] = {1} is larger than the pivot: {2}. decrementing j.".format(j, sort_list[j], pivot_value)
             j = j-1
 
         if j < i:
+	    print "i and j have converged at the split point: list[{0}] = {1}".format(j, sort_list[j])
             done = True
         else:
+            print "swapping item at j, list[{0}] = {1}, and item at i list[{2}] = {3}".format(j,sort_list[j],i,sort_list[i])
             temp = sort_list[i]
             sort_list[i] = sort_list[j]
             sort_list[j] = temp
 
     # swap pivot with value at split point
+    print "swapping pivot value ({0}), which is at {1}, with the value ({2}) at the split point list[{3}]".format(pivot_value, first, sort_list[j], j)
     temp = sort_list[first]
     sort_list[first] = sort_list[j]
     sort_list[j] = temp
 
     return j
 
-sort_list = [94,3,86,39,78,0,2]
+sort_list = [41,12,94,3,86,39,78,0,2]
 print sort_list
 quick_sort(sort_list)
 print sort_list
