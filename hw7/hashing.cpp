@@ -23,19 +23,17 @@
 //           to generate hash keys.
 //           ...
 //
-"
 //
 #include <iostream>
 #include <string>
+#include "HashMap.h"
 
-//typedef unsigned int (*HashFunction)(const std::string&);
+using namespace std;
 
-//unsigned int JSHash  (const std::string& str);
+unsigned int hash_function (const string& str);
 
 int main() {
-    //return true;
-}
-
-unsigned int JSHash(const std::string& str) {
-    //bitwise hash function written by Justin Sobel
+    HashMap * map = new HashMap();
+    map->insert("this is a string", 1);    
+    return true;
 }
