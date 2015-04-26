@@ -3,7 +3,9 @@
 #include "HashMap.h"
 
 HashMap::HashMap() {
-
+    for(int i = 0; i < SIZE; i++) {
+        map[i] = new List_3358<int>;
+    }
 }
 
 int HashMap::hashFunction(const string& str) {
@@ -24,17 +26,16 @@ int HashMap::hashFunction(const string& str) {
         hashValue ^= ((hashValue << 5) + str[i] + (hashValue >> 2));
     }
 
-    int key = hashValue % SIZE;
+    int key = hashValue % (SIZE - 1);
     return key;
 }
 
 bool HashMap::insert(const string& str, int value) {
-    HashEntry * newItem;
-    newItem->key = hashFunction(str);
-    newItem->value = value;
+    int key = hashFunction(str);
 
-    HashEntry * bucketCursor = map[newItem->key];
-    cout << bucketCursor->value << endl;
+    List_3358<int> * bucket = map[key];
+    bucket->insert(value);
+
     return true;
 }
 
@@ -42,6 +43,16 @@ bool HashMap::remove(int key) {
     return true;
 }
 
-HashMap::HashEntry * HashMap::find(int key) {
+List_3358<int> * HashMap::find(const string& str) {
+    int key = hashFunction(str);
     return map[key];
+}
+
+List_3358<int> const& HashMap::operator[](int index) const
+{
+    return * map[index];
+}
+
+int HashMap::size() {
+    return SIZE;
 }

@@ -36,10 +36,11 @@ struct FILE_LOC {
 };
 
 int get_dir_list(char * dir, vector<FILE_LOC> &files);
-int process_files(const vector<FILE_LOC> &files, int chunksize);
+bool process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map);
 string strip_non_alpha(string word);
 bool strip_char(char c);
-unsigned int store_chunk(const list<string> & chunk);
+bool store_chunk(const list<string> & chunk, HashMap & map, int i);
+int reduce(HashMap & map);
 
 int main(int argc, char *argv[]) {
   if(argc < 3) {
@@ -61,9 +62,11 @@ int main(int argc, char *argv[]) {
 
   vector<FILE_LOC> files = vector<FILE_LOC>();
 
-  get_dir_list(argv[1], files);
-  process_files(files, chunksize);
+  HashMap * map = new HashMap();
 
+  get_dir_list(argv[1], files);
+  process_files(files, chunksize, * map);
+  reduce(* map);
   return 0;
 }
 
@@ -89,19 +92,13 @@ int get_dir_list(char * dir, vector<FILE_LOC> &files) {
   return 0;
 }
 
-int process_files(const vector<FILE_LOC> &files, int chunksize) {
-    //temp
-    int larger = 0;
-    int smaller = 0;
-    int breakpoint = 2147483647;
-    int total = 0;
-    //temp
-
-    //ifstream infile;
+bool process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) {
     string filename;
     string path;
     string word;
     list<string> chunk;
+
+    //HashMap * map = new HashMap();
 
     for (int i = 0; i < files.size(); i++) {
       path = files[i].path;
@@ -113,16 +110,13 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
 
       if( (filename == ".") || (filename == "..") )
         continue;
-
+    /*
       cout << "\n++++++++++++++++++++" << endl;
       cout << "+ file index: " << (i-1) << endl;
       cout << "+ file name: " << filename << endl;
       cout << "+ chunk size: " << chunksize << endl;
       cout << "++++++++++++++++++++\n" << endl;
-
-      //infile.open(path + filename);
-      HashMap * map = new HashMap();
-
+    */
       chunk.clear();
 
       if ( infile.is_open() )
@@ -133,12 +127,7 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
 
           if(chunk.size() >= chunksize) { // shouldn't ever be > than
 
-            if(store_chunk(chunk) > breakpoint)
-                larger += 1;
-            else
-                smaller += 1;
-
-            total += 1;
+            store_chunk(chunk, map, i);
 
             chunk.pop_front();
           }
@@ -147,11 +136,6 @@ int process_files(const vector<FILE_LOC> &files, int chunksize) {
         infile.close();
       }
 
-    double smaller_percent = ((double)smaller / (double)total) * 100;
-    double larger_percent = ((double)larger / (double)total) * 100;
-    cout << "keys smaller than: " << breakpoint << " - " << smaller << " % " << smaller_percent << endl;
-    cout << "keys larger than: " << breakpoint << " - " << larger << " % " << larger_percent << endl;
-    cout << "total " << total << endl;
     return 0;
 }
 
@@ -164,19 +148,38 @@ bool strip_char(char c) {
   return !isalpha(c);
 }
 
-unsigned int store_chunk(const list<string> & chunk) {
-
-  HashMap * map = new HashMap();
-
+bool store_chunk(const list<string> & chunk, HashMap & map, int i) {
   string chunkString = "";
 
   for (list<string>::const_iterator iter = chunk.begin(); iter != chunk.end(); ++iter) {
     chunkString += *iter;
   }
 
-  cout << (chunkString) << endl;
+  map.insert(chunkString, i);
+  //map.insert("hello world", i);
 
-  //cout << chunkString << "\t" << map->hashFunction(chunkString) << endl;
+  return true;
+}
 
-  return map->hashFunction(chunkString);
+int reduce(HashMap & map) {
+    for(int i = 0; i < map.size(); i++) {
+        List_3358<int> bucket = map[i];
+
+        if(!bucket.isEmpty())
+            cout << "hash key: " << i << endl;
+
+        bucket.reset();
+
+        while(!bucket.atEOL()) {
+            int val = bucket.getCurrent();
+            if (val > 0)
+                cout << "\tdoc: " << bucket.getCurrent() << endl;
+            bucket.advance();
+        }
+
+
+        if(!bucket.isEmpty())
+            cout << endl;
+    }
+    return 0;
 }
