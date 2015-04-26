@@ -43,36 +43,36 @@ bool store_chunk(const list<string> & chunk, HashMap & map, int i);
 int reduce(HashMap & map, vector<vector<int> > matrix);
 
 int main(int argc, char *argv[]) {
-  if(argc < 4) {
-      cout << "Error: Missing Parameters\n\n";
-      cout << "Please provide a path containing documents to analyze, ";// << endl;
-      cout << "an \ninteger representing the length of the words ";// << endl;
-      cout << "sequences to compare, and a minimum bar for\n\n";
-      cout << "Example: \n";
-      cout << "prompt> ./plagiarismCatcher path/to/text/files 6 200\n";
-      return 0;
-  }
+    if(argc < 4) {
+        cout << "Error: Missing Parameters\n\n";
+        cout << "Please provide a path containing documents to analyze, ";// << endl;
+        cout << "an \ninteger representing the length of the words ";// << endl;
+        cout << "sequences to compare, and a minimum bar for\n\n";
+        cout << "Example: \n";
+        cout << "prompt> ./plagiarismCatcher path/to/text/files 6 200\n";
+        return 0;
+    }
 
-  int chunksize = atoi(argv[2]);
+    int chunksize = atoi(argv[2]);
 
-  if((chunksize > 40) || (chunksize < 1)) {
-    cout << "Sequence length " << chunksize << " is not good, please try again." << endl;
-    return -1;
-  }
+    if((chunksize > 40) || (chunksize < 1)) {
+        cout << "Sequence length " << chunksize << " is not good, please try again." << endl;
+        return -1;
+    }
 
-  vector<FILE_LOC> files = vector<FILE_LOC>();
+    vector<FILE_LOC> files = vector<FILE_LOC>();
 
-  HashMap * map = new HashMap();
+    HashMap * map = new HashMap();
 
-  get_dir_list(argv[1], files);
-  int fileCount = process_files(files, chunksize, * map);
+    get_dir_list(argv[1], files);
+    int fileCount = process_files(files, chunksize, * map);
 
-  vector<int> columns(fileCount, 0);
-  vector<vector<int> > matrix(fileCount,columns);
+    vector<int> columns(fileCount, 0);
+    vector<vector<int> > matrix(fileCount,columns);
 
-  reduce(* map, matrix);
+    reduce(* map, matrix);
 
-  return 0;
+return 0;
 }
 
 int get_dir_list(char * dir, vector<FILE_LOC> &files) {
@@ -191,37 +191,21 @@ int reduce(HashMap & map, vector<vector<int> > matrix) {
 
             for(int i = 0; i < docs.size(); i++) {
                 for (int j = i; j < docs.size(); j++) {
-                    matrix[i][j] += 1;
+                    int doca = docs[i];
+                    int docb = docs[j];
+                    if(doca != docb)
+                        matrix[doca][docb] += 1;
                 }
             }
         }
-
-            //cout << "hash key: " << i << endl;
-/*
-        bucket.reset();
-
-        while(!bucket.atEOL()) {
-            List_3358<int> matching = bucket;
-            int docnum = bucket.getCurrent();
-            if (val > 0) {
-                while(!matching.atEOL()) {
-
-                }
-                //matrix[][]
-                cout << "\tdoc: " << bucket.getCurrent() << endl;
-            }
-            bucket.advance();
-        }
-
-
-        if(!bucket.isEmpty())
-            cout << endl;*/
     }
+
     for(int i = 0; i < matrix.size(); i++) {
         for (int j = 0; j < matrix.size(); j++) {
-            cout << matrix[i][j] << " ";
+            cout << matrix[i][j] << "\t";
+            //cout << i << j << "\t";
         }
-        cout << endl;
+        cout << "\b" << endl;
     }
 
     return 0;
