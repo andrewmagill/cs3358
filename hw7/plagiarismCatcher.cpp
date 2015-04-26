@@ -135,11 +135,9 @@ int process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) {
       path = files[i].path;
       filename = files[i].filename;
 
-      path = path + filename;
+      path = path + "/" + filename;
 
-      //ifstream infile(path.c_str());
-      ifstream infile;//(path.c_str());
-      infile.open (path.c_str(), std::ifstream::in);
+      ifstream infile(path.c_str());
 
       if( (filename == ".") || (filename == "..") )
         continue;
