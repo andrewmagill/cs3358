@@ -170,38 +170,23 @@ int reduce(HashMap & map, vector<vector<int> > matrix) {
 
     for(int i = 0; i < map.size(); i++) {
         List_3358<int> bucket = map[i];
+        bucket.reset();
 
-        // major hacky
-        if(!bucket.isEmpty()) {
-            bucket.reset();
-            int count = 0;
+        while(!bucket.atEOL()) {
+            int doc_a = bucket.getCurrent();
+            bucket.remove();
             while(!bucket.atEOL()) {
-                count++;
+                int doc_b = bucket.getCurrent();
+                if(doc_a != doc_b)
+                    matrix[doc_a][doc_b] += 1;
                 bucket.advance();
             }
-
-            vector<int> docs(count,0);
             bucket.reset();
-            int itemcount = 0;
-            while(!bucket.atEOL()) {
-                docs[itemcount] = bucket.getCurrent();
-                itemcount++;
-                bucket.advance();
-            }
-
-            for(int i = 0; i < docs.size(); i++) {
-                for (int j = i; j < docs.size(); j++) {
-                    int doca = docs[i];
-                    int docb = docs[j];
-                    if(doca != docb)
-                        matrix[doca][docb] += 1;
-                }
-            }
         }
     }
 
-    for(int i = 0; i < matrix.size(); i++) {
-        for (int j = 0; j < matrix.size(); j++) {
+    for(int i = 2; i < matrix.size(); i++) {
+        for (int j = i+1; j < matrix.size(); j++) {
             cout << matrix[i][j] << "\t";
             //cout << i << j << "\t";
         }
