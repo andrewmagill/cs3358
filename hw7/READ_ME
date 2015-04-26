@@ -1,26 +1,68 @@
-// A Magill
-// CS 3358 251 - Dr. Priebe
-// TxState Spring 2015
-//
-// Assignment 7 - Plagiarism Checker
-//
-// Goal: "Try to (quickly) determine the similarities between documents
-//        in a large set to see if you can find out if plagiarism is going
-//        on within the group."
-//
-// Strategy: Read in each text file from a given directory, hashing m-word
-//           chunks as file is read (m is given at command line, 5 or 6 are
-//           good choices for m). We will store the number of the document
-//           being processed as the value corresponding to each key (documents
-//           are numbered from 1..num_docs in descending alphabetical order).
-//           We will store a particular hash key once per document. We are
-//           considering collision between keys in different documents as
-//           duplicate m-word chunks, possibly indicating plagiarism. The
-//           hashing function will produce some false positives, we hope to
-//           minimize these by choosing an effective hashing strategy for
-//           the given input (probably 5 or 6 word english strings with no punct.)
-//           I have chosen a bitwise hashing functionm written by Justin Sobel
-//           to generate hash keys.
-//           ...
-//
-//
+ A Magill
+ CS 3358 251 - Dr. Priebe
+ TxState Spring 2015
+
+ Assignment 7 - Plagiarism Checker
+
+ Build Instructions:
+
+    Run make, the makefile creates a bin/ directory where the
+    executables are created.
+
+    Example (from the project directory):
+    $ make      # creates bin/catcher
+
+ Running:
+
+    The program takes three parameters:
+        * relative path to document directory
+        * integer representing the number of words per chunk
+        * integer representing a threshold of similar chunks
+          under which files will not be considered to be very similar
+
+    Example (from the project directory):
+        $ bin/catcher sm_doc_set/ 6 200     # the program will compare
+                                            # all six word chunks from the
+                                            # files in the sm_doc_set/ directory
+                                            # and list files with more than 200
+                                            # matching chunks
+
+ Note: Works on large set in less than 6 seconds.
+
+ Goal: "Try to (quickly) determine the similarities between documents
+        in a large set to see if you can find out if plagiarism is going
+        on within the group."
+
+ Strategy: Read in each text file from a given directory, hashing m-word
+           chunks as file is read (m is given at command line, 5 or 6 are
+           good choices for m). We will store the number of the document
+           being processed as the value corresponding to each key (documents
+           are numbered from 1..num_docs in descending alphabetical order).
+
+           ~We will store a particular hash key once per document.~ I didn't
+           do this, I just ignored the duplicates when compiling results.
+
+           We are considering collision between keys in different documents as
+           duplicate m-word chunks, possibly indicating plagiarism. The
+           hashing function will produce some false positives, we hope to
+           minimize these by choosing an effective hashing strategy for
+           the given input (probably 5 or 6 word english strings with no punct.)
+
+           I have chosen to use a bitwise hashing function adapted from a
+           version written by Justin Sobel to generate hash keys.  The function
+           is fast and effective for the dataset, resulting hashes do not appear
+           to tend to cluster, I saw a good spread of values.  Justin Sobel's
+           original function may be found here:
+
+           http://www.partow.net/programming/hashfunctions/#JSHashFunction
+
+           I am using quicksort to order the results, I have adapted code found
+           here:
+
+           http://www.algolist.net/Algorithms/Sorting/Quicksort
+
+           to sort the RESULT struct in descending order.
+
+           I think the efficiency of this program could be greatly improved,
+           however, it does consistently process the large dataset under 6 seconds
+           on hercules.cs.txstate.edu.

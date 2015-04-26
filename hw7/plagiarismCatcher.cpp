@@ -90,15 +90,19 @@ int main(int argc, char *argv[]) {
     vector<RESULT> results = reduce(* map, matrix, files);
     Sorting::quicksort(results,0,results.size());
 
+    cout << " *** plagiarism catcher **** \n" << endl;
+    cout << "     the following files have more than " << threshold << endl;
+    cout << "     " << chunksize << "-word chunks in common.\n" << endl;
+
     for(int i=0; i<results.size(); i++) {
         if(results[i].collisions > threshold) {
-            cout << "Files: " << results[i].file_a << " and " << results[i].file_b;
-            cout << " have a similarity score of " << results[i].collisions << endl;
+            cout << "Files:\t" << results[i].file_a << "\t\tand\t" << results[i].file_b;
+            cout << "\t\thave a similarity score of\t" << results[i].collisions << endl;
         }
     }
 
     duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
-    cout << duration << endl;
+    cout << "\ntime elapsed: " << duration << " seconds.\n" << endl;
 
     return 0;
 }

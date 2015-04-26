@@ -1,7 +1,6 @@
-all: hashing catcher
+all: catcher
 
-hashing: hashing.cpp HashMap.cpp
-	g++ hashing.cpp HashMap.cpp -o bin/hashing
+	mkdir -p bin
 
 catcher: plagiarismCatcher.cpp HashMap.cpp sorting.cpp
 	g++ plagiarismCatcher.cpp HashMap.cpp sorting.cpp -o bin/catcher
