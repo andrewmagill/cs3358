@@ -29,6 +29,8 @@
 #include "HashMap.h"
 #include "sorting.h"
 
+#include <ctime>
+
 using namespace std;
 
 struct FILE_LOC {
@@ -50,6 +52,12 @@ bool store_chunk(const list<string> & chunk, HashMap & map, int i);
 vector<RESULT> reduce(HashMap & map, vector<vector<int> > matrix, vector<FILE_LOC> files);
 
 int main(int argc, char *argv[]) {
+    //
+    clock_t start;
+    double duration;
+    start = clock();
+    //
+
     if(argc < 4) {
         cout << "Error: Missing Parameters\n\n";
         cout << "Please provide a path containing documents to analyze, ";// << endl;
@@ -89,7 +97,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
-return 0;
+    duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
+    cout << duration << endl;
+
+    return 0;
 }
 
 int get_dir_list(char * dir, vector<FILE_LOC> &files) {
