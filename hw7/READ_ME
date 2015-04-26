@@ -6,11 +6,10 @@
 
  Build Instructions:
 
-    Run make, the makefile creates a bin/ directory where the
-    executables are created.
+    Run make, the makefile will create an executable in the current directory.
 
     Example (from the project directory):
-    $ make      # creates bin/catcher
+        $ make      # creates ./catcher
 
  Running:
 
@@ -21,7 +20,7 @@
           under which files will not be considered to be very similar
 
     Example (from the project directory):
-        $ bin/catcher sm_doc_set/ 6 200     # the program will compare
+        $ ./catcher sm_doc_set/ 6 200     # the program will compare
                                             # all six word chunks from the
                                             # files in the sm_doc_set/ directory
                                             # and list files with more than 200
