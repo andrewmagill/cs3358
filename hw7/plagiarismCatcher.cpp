@@ -36,20 +36,20 @@ struct FILE_LOC {
 };
 
 int get_dir_list(char * dir, vector<FILE_LOC> &files);
-bool process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map);
+int process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map);
 string strip_non_alpha(string word);
 bool strip_char(char c);
 bool store_chunk(const list<string> & chunk, HashMap & map, int i);
-int reduce(HashMap & map);
+int reduce(HashMap & map, vector<vector<int> > matrix);
 
 int main(int argc, char *argv[]) {
-  if(argc < 3) {
+  if(argc < 4) {
       cout << "Error: Missing Parameters\n\n";
       cout << "Please provide a path containing documents to analyze, ";// << endl;
-      cout << "and an \ninteger representing the length of the words ";// << endl;
-      cout << "sequences to compare.\n\n";
+      cout << "an \ninteger representing the length of the words ";// << endl;
+      cout << "sequences to compare, and a minimum bar for\n\n";
       cout << "Example: \n";
-      cout << "prompt> ./plagiarismCatcher path/to/text/files 6\n";
+      cout << "prompt> ./plagiarismCatcher path/to/text/files 6 200\n";
       return 0;
   }
 
@@ -65,8 +65,13 @@ int main(int argc, char *argv[]) {
   HashMap * map = new HashMap();
 
   get_dir_list(argv[1], files);
-  process_files(files, chunksize, * map);
-  reduce(* map);
+  int fileCount = process_files(files, chunksize, * map);
+
+  vector<int> columns(fileCount, 0);
+  vector<vector<int> > matrix(fileCount,columns);
+
+  reduce(* map, matrix);
+
   return 0;
 }
 
@@ -92,7 +97,7 @@ int get_dir_list(char * dir, vector<FILE_LOC> &files) {
   return 0;
 }
 
-bool process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) {
+int process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) {
     string filename;
     string path;
     string word;
@@ -136,7 +141,7 @@ bool process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) 
         infile.close();
       }
 
-    return 0;
+    return files.size();
 }
 
 string strip_non_alpha(string word) {
@@ -161,25 +166,63 @@ bool store_chunk(const list<string> & chunk, HashMap & map, int i) {
   return true;
 }
 
-int reduce(HashMap & map) {
+int reduce(HashMap & map, vector<vector<int> > matrix) {
+
     for(int i = 0; i < map.size(); i++) {
         List_3358<int> bucket = map[i];
 
-        if(!bucket.isEmpty())
-            cout << "hash key: " << i << endl;
+        // major hacky
+        if(!bucket.isEmpty()) {
+            bucket.reset();
+            int count = 0;
+            while(!bucket.atEOL()) {
+                count++;
+                bucket.advance();
+            }
 
+            vector<int> docs(count,0);
+            bucket.reset();
+            int itemcount = 0;
+            while(!bucket.atEOL()) {
+                docs[itemcount] = bucket.getCurrent();
+                itemcount++;
+                bucket.advance();
+            }
+
+            for(int i = 0; i < docs.size(); i++) {
+                for (int j = i; j < docs.size(); j++) {
+                    matrix[i][j] += 1;
+                }
+            }
+        }
+
+            //cout << "hash key: " << i << endl;
+/*
         bucket.reset();
 
         while(!bucket.atEOL()) {
-            int val = bucket.getCurrent();
-            if (val > 0)
+            List_3358<int> matching = bucket;
+            int docnum = bucket.getCurrent();
+            if (val > 0) {
+                while(!matching.atEOL()) {
+
+                }
+                //matrix[][]
                 cout << "\tdoc: " << bucket.getCurrent() << endl;
+            }
             bucket.advance();
         }
 
 
         if(!bucket.isEmpty())
-            cout << endl;
+            cout << endl;*/
     }
+    for(int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix.size(); j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+
     return 0;
 }

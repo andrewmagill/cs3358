@@ -7,6 +7,11 @@ HashMap::HashMap() {
         map[i] = new List_3358<int>;
     }
 }
+HashMap::~HashMap() {
+    for(int i = 0; i < SIZE; i++) {
+        delete map[i];
+    }
+}
 
 int HashMap::hashFunction(const string& str) {
     // bitwise hash function base on JSHash written by Justin Sobel

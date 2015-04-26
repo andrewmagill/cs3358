@@ -27,12 +27,13 @@ private:
 
 public:
     HashMap();
+    ~HashMap();
 
     int hashFunction (const string& str);
     bool insert(const string& str, int value);
     bool remove(int key);
     List_3358<int> * find(const string& str);
-    List_3358<int> const& operator[](int index) const;    
+    List_3358<int> const& operator[](int index) const;
     int size();
 };
 
