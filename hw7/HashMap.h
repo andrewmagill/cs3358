@@ -1,7 +1,7 @@
 #ifndef HASHMAP_h
 #define HASHMAP_h
 
-#import "List_3358.h"
+#include "List_3358.h"
 
 using namespace cs3358_LL;
 

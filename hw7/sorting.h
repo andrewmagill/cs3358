@@ -1,8 +1,8 @@
 #ifndef SORTING_h
 #define SORTING_h
 
-#import "vector"
-#import "string"
+#include "vector"
+#include "string"
 
 using namespace std;
 

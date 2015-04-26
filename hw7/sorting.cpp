@@ -1,5 +1,5 @@
-#import "vector"
-#import "sorting.h"
+#include "vector"
+#include "sorting.h"
 
 using namespace std;
 
