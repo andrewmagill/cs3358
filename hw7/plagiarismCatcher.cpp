@@ -27,6 +27,7 @@
 #include <fstream>
 #include <list>
 #include "HashMap.h"
+#include "sorting.h"
 
 using namespace std;
 
@@ -34,20 +35,26 @@ struct FILE_LOC {
   string path;
   string filename;
 };
-
+/*
+struct RESULT {
+    string file_a;
+    string file_b;
+    int collisions;
+};
+*/
 int get_dir_list(char * dir, vector<FILE_LOC> &files);
 int process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map);
 string strip_non_alpha(string word);
 bool strip_char(char c);
 bool store_chunk(const list<string> & chunk, HashMap & map, int i);
-int reduce(HashMap & map, vector<vector<int> > matrix);
+vector<RESULT> reduce(HashMap & map, vector<vector<int> > matrix, vector<FILE_LOC> files);
 
 int main(int argc, char *argv[]) {
     if(argc < 4) {
         cout << "Error: Missing Parameters\n\n";
         cout << "Please provide a path containing documents to analyze, ";// << endl;
         cout << "an \ninteger representing the length of the words ";// << endl;
-        cout << "sequences to compare, and a minimum bar for\n\n";
+        cout << "sequences to \ncompare, and a minimum similarity threshold.\n\n";
         cout << "Example: \n";
         cout << "prompt> ./plagiarismCatcher path/to/text/files 6 200\n";
         return 0;
@@ -57,8 +64,10 @@ int main(int argc, char *argv[]) {
 
     if((chunksize > 40) || (chunksize < 1)) {
         cout << "Sequence length " << chunksize << " is not good, please try again." << endl;
-        return -1;
+        return true;
     }
+
+    int threshold = atoi(argv[3]);
 
     vector<FILE_LOC> files = vector<FILE_LOC>();
 
@@ -70,7 +79,15 @@ int main(int argc, char *argv[]) {
     vector<int> columns(fileCount, 0);
     vector<vector<int> > matrix(fileCount,columns);
 
-    reduce(* map, matrix);
+    vector<RESULT> results = reduce(* map, matrix, files);
+    Sorting::quicksort(results,0,results.size());
+
+    for(int i=0; i<results.size(); i++) {
+        if(results[i].collisions > threshold) {
+            cout << "Files: " << results[i].file_a << " and " << results[i].file_b;
+            cout << " have a similarity score of " << results[i].collisions << endl;
+        }
+    }
 
 return 0;
 }
@@ -103,8 +120,6 @@ int process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) {
     string word;
     list<string> chunk;
 
-    //HashMap * map = new HashMap();
-
     for (int i = 0; i < files.size(); i++) {
       path = files[i].path;
       filename = files[i].filename;
@@ -115,13 +130,7 @@ int process_files(const vector<FILE_LOC> &files, int chunksize, HashMap & map) {
 
       if( (filename == ".") || (filename == "..") )
         continue;
-    /*
-      cout << "\n++++++++++++++++++++" << endl;
-      cout << "+ file index: " << (i-1) << endl;
-      cout << "+ file name: " << filename << endl;
-      cout << "+ chunk size: " << chunksize << endl;
-      cout << "++++++++++++++++++++\n" << endl;
-    */
+
       chunk.clear();
 
       if ( infile.is_open() )
@@ -161,12 +170,13 @@ bool store_chunk(const list<string> & chunk, HashMap & map, int i) {
   }
 
   map.insert(chunkString, i);
-  //map.insert("hello world", i);
 
   return true;
 }
 
-int reduce(HashMap & map, vector<vector<int> > matrix) {
+vector<RESULT> reduce(HashMap & map, vector<vector<int> > matrix, vector<FILE_LOC> files) {
+
+    vector<RESULT> results = vector<RESULT>();
 
     for(int i = 0; i < map.size(); i++) {
         List_3358<int> bucket = map[i];
@@ -177,8 +187,9 @@ int reduce(HashMap & map, vector<vector<int> > matrix) {
             bucket.remove();
             while(!bucket.atEOL()) {
                 int doc_b = bucket.getCurrent();
-                if(doc_a != doc_b)
+                if(doc_a != doc_b) {
                     matrix[doc_a][doc_b] += 1;
+                }
                 bucket.advance();
             }
             bucket.reset();
@@ -187,11 +198,18 @@ int reduce(HashMap & map, vector<vector<int> > matrix) {
 
     for(int i = 2; i < matrix.size(); i++) {
         for (int j = i+1; j < matrix.size(); j++) {
-            cout << matrix[i][j] << "\t";
-            //cout << i << j << "\t";
+            int collisions = matrix[i][j];
+            if(collisions > 0) {
+                RESULT result;
+                result.file_a = files[i].filename;
+                result.file_b = files[j].filename;
+                result.collisions = collisions;
+                results.push_back(result);
+            }
+            //cout << matrix[i][j] << "\t";
         }
-        cout << "\b" << endl;
+        //cout << "\b" << endl;
     }
 
-    return 0;
+    return results;
 }
