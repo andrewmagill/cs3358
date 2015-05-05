@@ -1,10 +1,14 @@
 
 /*  BST_3358.h
-  CS 3358 Fall 2014
-  
-  a simple implementation of a binary search tree
-  
-  
+  CS 3358 Spring 2015
+  Assignment 8 - Tree Search
+
+  Binary Search Tree header and implementation, with the exception of
+  the BreadthFirstSearch method, written by Dr. Priebe
+
+  BreadthFirstSearch method and Queue implementation written by
+  Andrew Magill for assignment 8, CS 3358 251 Spring 2015
+
 */
 
 #ifndef BST_3358_H
@@ -12,119 +16,120 @@
 
 #include <cstdlib>  // Provides size_t
 #include <iostream>
+#include "queue_3358.h"
 
 using namespace std;
 
 template<class ItemType>
 class BST_3358 {
  public:
-    
+
     BST_3358();
-    
+
     //Copy constructor
     BST_3358(const BST_3358 & src);
-    
-/****************************  
+
+/****************************
 makeEmpty
-  
-Function: Removes all the items from the BST. 
-Preconditions: BST has been initialized 
+
+Function: Removes all the items from the BST.
+Preconditions: BST has been initialized
 Postconditions: All the items have been removed
-*****************************/        
+*****************************/
     void makeEmpty();
-    
-/****************************  
+
+/****************************
 isEmpty
-  
-Function: Checks to see if there are any items in the BST. 
+
+Function: Checks to see if there are any items in the BST.
 Preconditions: BST has been initialized
 Postconditions: Returns true if there are no items in the BST, else false.
-*****************************/        
+*****************************/
     bool isEmpty() const;
-    
-/****************************  
+
+/****************************
 isFull
-  
+
 Function: Determines if you have any more room to add items to the BST
 Preconditions: BST has been initialized
 Postconditions: Returns true if there is no more room to add items, else false
-*****************************/        
+*****************************/
     bool isFull() const;
 
-/****************************  
+/****************************
 insertItem
-  
-Function: Adds newItem to the BST. 
+
+Function: Adds newItem to the BST.
 Preconditions: BST has been initialized and is not full.
 Postconditions: newItem is in the proper position for a BST.
-*****************************/    
+*****************************/
  	void insertItem(const ItemType &);
- 	
-/****************************  
+
+/****************************
 deleteItem
-  
+
 Function: Removes target from BST.
 Preconditions: BST has been initialized.
-Postconditions: If found, element has been removed from BST. 
-*****************************/  	
+Postconditions: If found, element has been removed from BST.
+*****************************/
     void deleteItem(const ItemType& newItem);
-    
-/****************************  
+
+/****************************
 countNodes
-  
+
 Function: Counts the number of nodes in the BST
 Preconditions: BST has been initialized.
-Postconditions: returns the number of nodes in the BST 
-*****************************/  	
-    int countNodes();    
-    
-/****************************  
+Postconditions: returns the number of nodes in the BST
+*****************************/
+    int countNodes();
+
+/****************************
 preOrderTraversal
-  
+
 Function: prints the preOder (Node, Left, Right) traversal to standard output
 Preconditions: BST has been initialized.
-Postconditions: none 
-*****************************/  	
-    void preOrderTraversal();  
-    
-/****************************  
+Postconditions: none
+*****************************/
+    void preOrderTraversal();
+
+/****************************
 inOrderTraversal
-  
+
 Function: prints the inOder (Left, Node, Right) traversal to standard output
 Preconditions: BST has been initialized.
-Postconditions: none 
-*****************************/  	
-    void inOrderTraversal();  
-    
-/****************************  
+Postconditions: none
+*****************************/
+    void inOrderTraversal();
+
+/****************************
 postOrderTraversal
-  
+
 Function: prints the postOder (Left, Right, Node) traversal to standard output
 Preconditions: BST has been initialized.
-Postconditions: none 
-*****************************/  	
-    void postOrderTraversal();  
-    
+Postconditions: none
+*****************************/
+    void postOrderTraversal();
+
 /****************************
 breadthFirstSearch
- 
+
 Function: finds item by passing through the rows in the BST
 Preconditions: BST has been initialized
 Postcondidions: returns true if the item is found in the BST
 *****************************/
    bool breadthFirstSearch( ItemType item );
 
-    
+
   private:
     struct TreeNode {
        ItemType data;
        TreeNode *left;
        TreeNode *right;
     };
-    
+
     TreeNode * root;
 
-    
+
     void insertItem(TreeNode*& t, const ItemType& newItem);
     void inOrderTraversal(TreeNode* t) const;
     int countNodes(TreeNode* t) const;
@@ -139,7 +144,7 @@ Postcondidions: returns true if the item is found in the BST
 	//New for this assignment
     bool breadthFirstSearch( TreeNode* t, ItemType item );
 
-}; 
+};
 
 /*******************************
 / Function implementations
@@ -148,15 +153,15 @@ Postcondidions: returns true if the item is found in the BST
 template<class ItemType>
 BST_3358<ItemType>::BST_3358 ()
 {
- root = NULL;  
+ root = NULL;
 }
 
 template<class ItemType>
 BST_3358<ItemType>::BST_3358(const BST_3358 & src)
-{    
-   
+{
+
    copyTree(root, src.root);
-   
+
 }
 
 template<class ItemType>
@@ -171,7 +176,7 @@ void BST_3358<ItemType>::copyTree(TreeNode*& copy, const TreeNode* originalTree)
       copyTree(copy->left, originalTree->left);
       copyTree(copy->right, originalTree->right);
    }
-} 
+}
 
 template<class ItemType>
 void BST_3358 <ItemType>::deleteNode(TreeNode*& t)
@@ -197,7 +202,7 @@ void BST_3358 <ItemType>::deleteNode(TreeNode*& t)
       t->data = info;
       deleteItem(t->left, info);
    }
-      
+
 }
 
 
@@ -209,8 +214,8 @@ void BST_3358 <ItemType>::getPredecessor(TreeNode* t, ItemType& data)
    while (t->right != NULL)
       t = t->right;
 
-   data = t->data;  
-  
+   data = t->data;
+
 }
 
 
@@ -225,40 +230,40 @@ void BST_3358 <ItemType>::deleteItem(TreeNode*& t, const ItemType& newItem)
       deleteItem(t->right, newItem);
    else
       deleteNode(t);
-  
+
 }
 
 
 template<class ItemType>
 void BST_3358 <ItemType>::deleteItem(const ItemType& newItem)
 {
-   deleteItem(root, newItem);   
-  
+   deleteItem(root, newItem);
+
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::makeEmpty(TreeNode*& t)
-{	
+{
    if (t != NULL)
    {
       makeEmpty (t->left);
       makeEmpty (t->right);
       delete t;
-   }   
+   }
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::makeEmpty()
-{	
-   makeEmpty(root); 
-   root = NULL;  
+{
+   makeEmpty(root);
+   root = NULL;
 }
 
 template<class ItemType>
 bool BST_3358 <ItemType>::isEmpty() const
-{  
-   return (root == NULL);  
-   
+{
+   return (root == NULL);
+
 }
 
 template<class ItemType>
@@ -273,8 +278,8 @@ bool BST_3358 <ItemType>::isFull() const
    catch (std::bad_alloc)
    {
       return true;
-   }   
-   
+   }
+
 }
 
 
@@ -293,17 +298,13 @@ cout << "inserting node" << newItem << endl;
    else if (t->data > newItem)
       insertItem(t->left, newItem);
    else
-      insertItem(t->right, newItem);   
-      
-      
-      
-   
+      insertItem(t->right, newItem);
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::insertItem(const ItemType& newItem)
 {
-   insertItem(root, newItem);  
+   insertItem(root, newItem);
 }
 
 
@@ -322,7 +323,7 @@ int BST_3358 <ItemType>::countNodes(TreeNode* t) const
 template<class ItemType>
 int BST_3358 <ItemType>::countNodes()
 {
-   return countNodes(root);    
+   return countNodes(root);
 }
 
 template<class ItemType>
@@ -335,13 +336,13 @@ void BST_3358 <ItemType>::preOrderTraversal(TreeNode* t) const
       preOrderTraversal(t->right);
    }
 }
-     
-     
+
+
 template<class ItemType>
 void BST_3358 <ItemType>::preOrderTraversal()
 {
-  
-   preOrderTraversal(root);   
+
+   preOrderTraversal(root);
 }
 
 template<class ItemType>
@@ -352,14 +353,14 @@ void BST_3358 <ItemType>::inOrderTraversal(TreeNode* t) const
       inOrderTraversal(t->left);
       cout << t->data << endl;
       inOrderTraversal(t->right);
-   }      
-   
+   }
+
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::inOrderTraversal()
 {
-   inOrderTraversal(root);  
+   inOrderTraversal(root);
 }
 
 template<class ItemType>
@@ -370,15 +371,13 @@ void BST_3358 <ItemType>::postOrderTraversal(TreeNode* t) const
       postOrderTraversal(t->left);
       postOrderTraversal(t->right);
       cout << t->data << endl;
-   }  
+   }
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::postOrderTraversal()
 {
-   postOrderTraversal(root);   
+   postOrderTraversal(root);
 }
 
 #endif
-
-
