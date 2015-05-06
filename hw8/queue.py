@@ -6,16 +6,20 @@ class Queue(object):
         self.items = [None] * self.max
 
     def enqueue(self, item):
-        if self.is_full():
+        #if self.is_full():
+        if self.alt_is_full():
             return False
 
         self.items[self.write] = item
         self.write = (self.write + 1) % self.max
 
+        self.show()
+
         return True
 
     def dequeue(self):
-        if self.is_empty():
+        #if self.is_empty():
+        if self.alt_is_empty():
             return None
 
         value = self.items[self.read]
@@ -38,6 +42,32 @@ class Queue(object):
                 return False
         return False
 
+    def size(self):
+        size = None
+
+        if self.read <= self.write:
+            size = self.write - self.read
+        elif self.read > self.write:
+            size = self.write + self.max - self.read
+
+        return size
+
+
+    def alt_is_empty(self):
+        return size == 0
+
+    def alt_is_full(self):
+        # this is the reason for max + 1
+        # in dr. priebe's partial implementation
+        # if the current size is one less than
+        # the max, just call it full, that way
+        # front index == rear index is if the
+        # circular array is empty.
+        return (self.size() + 1) == self.max
+
+    def alt_is_empty(self):
+        return self.size() == 0
+
     def __str__(self):
         str = ""
         count = self.read
@@ -52,7 +82,12 @@ class Queue(object):
         return str
 
     def show(self):
-        print self.items
+        print "{0}\tread: {1}, write: {2}, e: {3}, f: {4}, s: {5}".format( \
+                    self.items, \
+                    self.read, self.write, \
+                    self.alt_is_empty(), \
+                    self.alt_is_full(), \
+                    self.size())
 
 q = Queue()
 

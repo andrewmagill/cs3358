@@ -1,12 +1,30 @@
 
 /*  queue_3358.h
-  CS 3358 Fall 2008
+  CS 3358 251 Spring 2015
+  Andrew Magill
+  header and partial implementation by Dr. Priebe
 
   a very simple array-based queue ADT
+  (not so simple for me to figure out)
 
   This implentation will use a dynamic array
 
   Note that this implementation uses one extra space and is a circular queue.
+
+  The extra space is important! We create an array of max + 1 items, which we
+  never completetly fill (we fill at most max elements of the array of size
+  max + 1). This situation prevents ambiguity when front == rear. We know when
+  front == rear that the queue must be empty.  The queue is full when all but
+  one element contains a value.  Here is how we find the size:
+
+      if front <= rear:
+          size = rear - front
+      else if front > rear:
+          size = rear + max - front
+
+  If we allowed the array to fill completetly, front == rear could mean that the
+  queue is full or it could mean that the queue is empty.  Not being able to tell
+  would prevent us from enqueueing a single item.
 
 */
 
@@ -83,6 +101,16 @@ Postconditions: First element has been removed from queue and is returned.
 *****************************/
     ItemType deQueue();
 
+/****************************
+size
+
+Function: Calculates size given relative position and difference between
+          front and rear indices.
+Preconditions: queue has been initialized
+Postconditions: Returns an integer representing number of items
+                currently in the queue.
+*****************************/
+    int size() const;
 
  private:
     size_type front;
@@ -91,7 +119,6 @@ Postconditions: First element has been removed from queue and is returned.
     size_type maxQue; //will be one bigger than the size in the constructor
 
     static const int MAX_ITEMS = 1000;
-
 };
 
 /*******************************
@@ -101,78 +128,96 @@ Postconditions: First element has been removed from queue and is returned.
 template<class ItemType>
 Queue_3358<ItemType>::Queue_3358 ()
 {
-  maxQue = MAX_ITEMS + 1;  //default value if none provided
-  front = maxQue - 1;
-  rear = maxQue - 1;
-  items = new ItemType[maxQue];   //dynamically allocated
+    maxQue = MAX_ITEMS + 1;  //default value if none provided
+    front = maxQue - 1;
+    rear = maxQue - 1;
+    items = new ItemType[maxQue];   //dynamically allocated
 }
 
 template<class ItemType>
 Queue_3358<ItemType>::Queue_3358(int max)
 {
-
-  maxQue = max + 1;   //max provided by user
-  front = maxQue - 1;
-  rear = maxQue - 1;
-  items = new ItemType[maxQue];  //dynamically allocated
+    maxQue = max + 1;   //max provided by user
+    front = maxQue - 1;
+    rear = maxQue - 1;
+    items = new ItemType[maxQue];  //dynamically allocated
 }
 
 template<class ItemType>
 Queue_3358<ItemType>::Queue_3358(const Queue_3358 & src)
 {
+    front = src.front;
+    rear = src.rear;
+    maxQue = src.maxQue;
 
-
-
+    // there's probably a more clever way to do this
+    for(int i = 0; i< maxQue; i++) {
+        items[i] = src.items[i];
+    }
 }
 
 
 template<class ItemType>
 Queue_3358<ItemType>::~Queue_3358()
 {
-  delete [] items;
+    delete [] items;
 }
-
 
 template<class ItemType>
 void Queue_3358 <ItemType>::makeEmpty()
 {
-
+    while(!isEmpty()) {
+        deQueue();
+    }
 
 }
 
+template<class ItemType>
+int Queue_3358<ItemType>::size() const {
+    int size;
+
+    if (front <= rear)
+        size = rear - front;
+    else if (front > rear)
+        size = rear + maxQue - front;
+
+    return size;
+}
 
 template<class ItemType>
 bool Queue_3358 <ItemType>::isEmpty() const
 {
-    // not yet implemented
-    return false;
+    return size() == 0;
 }
 
 template<class ItemType>
 bool Queue_3358 <ItemType>::isFull() const
 {
-    // not yet implemented
-    return false;
+    return (size() + 1) == maxQue;
 }
-
 
 template<class ItemType>
 void Queue_3358 <ItemType>::enQueue(const ItemType& newItem)
 {
-   assert(!isFull());
-
-   items[rear] = newItem;
-   rear--;
+    if(!isFull()) {
+        items[rear] = newItem;
+        rear = (rear + 1) % maxQue;
+    }
 }
-
 
 template<class ItemType>
 ItemType Queue_3358 <ItemType>::deQueue()
 {
-   assert(!isEmpty());
+    assert(!isEmpty());
 
+    ItemType value;
 
+    if (!isEmpty()) {
+        value = items[front];
+        front = (front + 1) % maxQue;
+    }
+
+    return value;
 }
-
 
 #endif
