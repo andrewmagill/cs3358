@@ -14,8 +14,7 @@
 #define QUEUE_3358_H
 
 #include <cstdlib>  // Provides size_t
-#include "array_list_3358.h"
-
+#include <assert.h>
 
 using namespace std;
 
@@ -145,13 +144,15 @@ void Queue_3358 <ItemType>::makeEmpty()
 template<class ItemType>
 bool Queue_3358 <ItemType>::isEmpty() const
 {
-
+    // not yet implemented
+    return false;
 }
 
 template<class ItemType>
 bool Queue_3358 <ItemType>::isFull() const
 {
-
+    // not yet implemented
+    return false;
 }
 
 
@@ -160,9 +161,8 @@ void Queue_3358 <ItemType>::enQueue(const ItemType& newItem)
 {
    assert(!isFull());
 
-
-
-
+   items[rear] = newItem;
+   rear--;
 }
 
 
