@@ -10,40 +10,61 @@
 using namespace std;
 
 int main () {
+    BST_3358<int> myBST;
 
-   BST_3358<int> myBST;
+    cout << "myBST.insertItem(42);\n" << endl;
+    myBST.insertItem(42);
 
-   myBST.insertItem(42);
-   myBST.insertItem(12);
-   myBST.insertItem(8);
-   myBST.insertItem(15);
+    cout << "myBST.insertItem(12);\n" << endl;
+    myBST.insertItem(12);
 
-   cout << "I have " << myBST.countNodes() << " nodes" << endl;
-   cout << "int" << endl;
-   myBST.inOrderTraversal();
-   cout << "pre" << endl;
-   myBST.preOrderTraversal();
-   cout << "post" << endl;
-   myBST.postOrderTraversal();
+    cout << "myBST.insertItem(8);\n" << endl;
+    myBST.insertItem(8);
 
-   myBST.deleteItem(12);
+    cout << "myBST.insertItem(15);\n" << endl;
+    myBST.insertItem(15);
 
-   myBST.inOrderTraversal();
+    cout << "I have " << myBST.countNodes() << " nodes" << endl;
 
-   cout << " delete 12 again " << endl;
+    cout << "in order traversal:\n" << endl;
+    myBST.inOrderTraversal();
 
-   myBST.deleteItem(12);
+    cout << "pre order traversal:\n" << endl;
+    myBST.preOrderTraversal();
 
-   cout << " make empty " << endl;
+    cout << "post order traversal:\n" << endl;
+    myBST.postOrderTraversal();
 
-   myBST.makeEmpty();
+    cout << "myBST.deleteItem(12);\n" << endl;
+    myBST.deleteItem(12);
 
-   if (myBST.isEmpty())
-      cout <<" it's empty"<< endl;
-   else
-      cout << "oops" << endl;
+    cout << "in order traversal:\n" << endl;
+    myBST.inOrderTraversal();
 
-   myBST.inOrderTraversal();
-   myBST.insertItem(123);
-   myBST.inOrderTraversal();
+    cout << "delete 12 again\n " << endl;
+    myBST.deleteItem(12);
+
+    cout << "in order traversal:\n" << endl;
+    myBST.inOrderTraversal();
+
+    cout << "make empty\n" << endl;
+    myBST.makeEmpty();
+
+    if (myBST.isEmpty())
+      cout <<"it's empty\n"<< endl;
+    else
+      cout << "oops\n" << endl;
+
+    cout << "in order traversal:\n" << endl;
+    myBST.inOrderTraversal();
+
+    cout << "myBST.insertItem(123);\n" << endl;
+    myBST.insertItem(123);
+
+    cout << "in order traversal:\n" << endl;
+    myBST.inOrderTraversal();
+
+    cout << "\nmyBST.breadthFirstSearch(123); " << myBST.breadthFirstSearch(123) << endl;
+
+    return 0;
 }

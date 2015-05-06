@@ -153,14 +153,14 @@ Postcondidions: returns true if the item is found in the BST
 template<class ItemType>
 BST_3358<ItemType>::BST_3358 ()
 {
- root = NULL;
+    root = NULL;
 }
 
 template<class ItemType>
 BST_3358<ItemType>::BST_3358(const BST_3358 & src)
 {
 
-   copyTree(root, src.root);
+    copyTree(root, src.root);
 
 }
 
@@ -238,7 +238,6 @@ template<class ItemType>
 void BST_3358 <ItemType>::deleteItem(const ItemType& newItem)
 {
    deleteItem(root, newItem);
-
 }
 
 template<class ItemType>
@@ -263,7 +262,6 @@ template<class ItemType>
 bool BST_3358 <ItemType>::isEmpty() const
 {
    return (root == NULL);
-
 }
 
 template<class ItemType>
@@ -279,7 +277,6 @@ bool BST_3358 <ItemType>::isFull() const
    {
       return true;
    }
-
 }
 
 
@@ -292,7 +289,7 @@ void BST_3358 <ItemType>::insertItem(TreeNode*& t, const ItemType& newItem)
       p->data = newItem;
       p->left = NULL;
       p->right = NULL;
-cout << "inserting node" << newItem << endl;
+      //cout << "inserting node " << newItem << "\n" << endl;
       t = p;
    }
    else if (t->data > newItem)
@@ -304,7 +301,7 @@ cout << "inserting node" << newItem << endl;
 template<class ItemType>
 void BST_3358 <ItemType>::insertItem(const ItemType& newItem)
 {
-   insertItem(root, newItem);
+    insertItem(root, newItem);
 }
 
 
@@ -312,72 +309,94 @@ void BST_3358 <ItemType>::insertItem(const ItemType& newItem)
 template<class ItemType>
 int BST_3358 <ItemType>::countNodes(TreeNode* t) const
 {
-
-   if (t == NULL)
-      return 0;
-   else
-      return countNodes(t->left) + countNodes(t->right) +1;
+    if (t == NULL)
+        return 0;
+    else
+        return countNodes(t->left) + countNodes(t->right) +1;
 }
 
 
 template<class ItemType>
 int BST_3358 <ItemType>::countNodes()
 {
-   return countNodes(root);
+    return countNodes(root);
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::preOrderTraversal(TreeNode* t) const
 {
-   if  (t != NULL)
-   {
-      cout << t->data << endl;
-      preOrderTraversal(t->left);
-      preOrderTraversal(t->right);
-   }
+    if  (t != NULL)
+    {
+        cout << t->data << endl;
+        preOrderTraversal(t->left);
+        preOrderTraversal(t->right);
+    }
 }
 
 
 template<class ItemType>
 void BST_3358 <ItemType>::preOrderTraversal()
 {
-
-   preOrderTraversal(root);
+    preOrderTraversal(root);
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::inOrderTraversal(TreeNode* t) const
 {
-   if (t != NULL)
-   {
-      inOrderTraversal(t->left);
-      cout << t->data << endl;
-      inOrderTraversal(t->right);
-   }
+    if (t != NULL)
+    {
+        inOrderTraversal(t->left);
+        cout << "\t" << t->data << endl;
+        inOrderTraversal(t->right);
+    }
 
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::inOrderTraversal()
 {
-   inOrderTraversal(root);
+    inOrderTraversal(root);
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::postOrderTraversal(TreeNode* t) const
 {
-   if (t !=NULL)
-   {
-      postOrderTraversal(t->left);
-      postOrderTraversal(t->right);
-      cout << t->data << endl;
-   }
+    if (t !=NULL)
+    {
+        postOrderTraversal(t->left);
+        postOrderTraversal(t->right);
+        cout << t->data << endl;
+    }
 }
 
 template<class ItemType>
 void BST_3358 <ItemType>::postOrderTraversal()
 {
-   postOrderTraversal(root);
+    postOrderTraversal(root);
+}
+
+template<class ItemType>
+bool BST_3358 <ItemType>::breadthFirstSearch( TreeNode* t, ItemType item ) {
+    if (t == NULL) return false;
+
+    Queue_3358<TreeNode*> q;
+    q.enQueue(t);
+
+    while(!q.isEmpty()) {
+        TreeNode * node = q.deQueue();
+        if(node->data == item) return true;
+        if(node->left != NULL)
+            q.enQueue(node->left);
+        if(node->right != NULL)
+            q.enQueue(node->right);
+    }
+
+    return false;
+}
+
+template<class ItemType>
+bool BST_3358 <ItemType>::breadthFirstSearch( ItemType item ) {
+    return breadthFirstSearch(root, item);
 }
 
 #endif

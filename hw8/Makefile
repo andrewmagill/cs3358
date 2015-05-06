@@ -1,4 +1,4 @@
 all: tree_search
 
-tree_search: bst_test.cpp
-	g++ bst_test.cpp -o bin/runme
+tree_search: bst_bfs_test.cpp
+	g++ bst_bfs_test.cpp -o test_bfs

@@ -1,0 +1,57 @@
+CS 3358 251 Spring 2015
+Dr. Priebe
+Andrew Magill
+
+HW Assignment 8
+
+Binary Search Tree and Breadth First Search
+
+The goal of this assignment was to implement a Queue using a circular
+array, and to then use that Queue in the implementation of a Breadth
+First Search method used in our Binary Search Tree.
+
+tldr;
+    To Build:
+
+    $ make
+
+    To Run:
+
+    $ test_bfs bst_bfs_test_input.txt
+
+The BST was already implemented by Dr. Priebe, we only need to implement
+the BFS method.
+
+In order to test this method, I have created a small test program which
+reads in a text file of test input.
+
+The test file is composed from commands like insert, delete, etc. along
+with test values.
+
+Valid commands:
+
+insert, delete, isempty, isfull, find, inorder
+
+Syntax:
+
+Values are contained within parenthesis, when appropriate:
+
+insert(42)
+delete(42)
+find(42)
+isempty
+isfull
+isorder
+
+Output is printed to the terminal.
+
+In order to run the program, please provide the name of an input test file
+as a parameter to the test program.
+
+To Build:
+
+$ make
+
+To Run:
+
+$ test_bfs bst_bfs_test_input.txt
